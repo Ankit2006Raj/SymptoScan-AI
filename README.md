@@ -5,6 +5,8 @@
 
 SymptoScan AI is a modern, comprehensive healthcare application designed to empower users with personalized health insights. Built with a beautiful glassmorphism UI, it uses advanced heuristics and machine learning algorithms to evaluate symptoms, predict disease risks, and analyze medical reports.
 
+![SymptoScan AI Dashboard](docs/images/hero.png)
+
 ## 🚀 Key Features
 
 *   **Intelligent Symptom Checker**: An interactive, category-based body explorer to input symptoms and receive instant AI-driven guidance.
