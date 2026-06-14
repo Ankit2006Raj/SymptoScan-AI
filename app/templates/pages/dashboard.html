@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Analytics Dashboard - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative">
+    <div class="container mx-auto px-4 max-w-6xl">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 mb-2">My Health Dashboard</h1>
+                <p class="text-slate-500 text-sm">A complete overview of your health timeline, risk analytics, and recent reports.</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{{ url_for('views.symptom_checker') }}" class="px-4 py-2 bg-white text-slate-700 font-bold border border-slate-200 rounded-xl hover:bg-slate-50 transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-plus"></i> New Check
+                </a>
+                <a href="{{ url_for('views.risk_prediction') }}" class="px-4 py-2 bg-primary text-white font-bold rounded-xl hover:bg-blue-700 transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-chart-line"></i> Predict Risk
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left: KPIs and Charts -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-50 text-primary rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-file-medical"></i></div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-800" id="kpi-reports">-</div>
+                            <div class="text-xs text-slate-500 font-medium">Reports Analyzed</div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-heart-pulse"></i></div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-800" id="kpi-risks">-</div>
+                            <div class="text-xs text-slate-500 font-medium">Risk Assessments</div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-stethoscope"></i></div>
+                        <div>
+                            <div class="text-2xl font-bold text-slate-800" id="kpi-symptoms">-</div>
+                            <div class="text-xs text-slate-500 font-medium">Symptom Checks</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Chart -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2">Activity Overview</h3>
+                    <div class="h-64 w-full">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Health Timeline -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm h-full">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-timeline text-primary"></i> Health Timeline
+                    </h3>
+                    
+                    <div id="timeline-container" class="relative border-l border-slate-200 ml-3 space-y-8 pb-4">
+                        <!-- Injected via JS -->
+                        <div class="text-center py-10 text-slate-400 text-sm ml-[-12px]">
+                            <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2 text-slate-300"></i><br>
+                            Loading timeline...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

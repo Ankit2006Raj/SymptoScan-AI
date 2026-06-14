@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}AI Health Assistant - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative flex flex-col">
+    <!-- Main Chat Interface -->
+    <div class="container mx-auto px-4 max-w-4xl flex-grow flex flex-col h-[80vh]">
+        
+        <!-- Header -->
+        <div class="bg-white rounded-t-3xl p-4 md:p-6 border-b border-slate-100 flex items-center justify-between shadow-sm z-10 relative">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 leading-tight">SymptoScan AI</h2>
+                    <p class="text-xs text-slate-500 font-medium flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse"></span> Online and ready to help
+                    </p>
+                </div>
+            </div>
+            <div>
+                <button id="btn-new-chat" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">New Chat</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container" class="bg-white p-6 overflow-y-auto flex-grow flex flex-col gap-6 shadow-sm relative">
+            
+            <!-- Welcome Message / Empty State -->
+            <div id="welcome-state" class="flex flex-col items-center justify-center h-full text-center fade-in">
+                <div class="w-20 h-20 bg-blue-50 text-primary rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">How can I help you today?</h3>
+                <p class="text-slate-500 max-w-md mx-auto mb-8">I can analyze symptoms, explain medical terminology, or give general health advice.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl w-full">
+                    <button class="suggestion-btn text-left p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-blue-50 transition">
+                        <div class="font-bold text-slate-700 text-sm mb-1"><i class="fa-solid fa-droplet text-primary mr-1"></i> Explain Lipid Panel</div>
+                        <div class="text-xs text-slate-500">What do LDL and HDL cholesterol numbers mean?</div>
+                    </button>
+                    <button class="suggestion-btn text-left p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-blue-50 transition">
+                        <div class="font-bold text-slate-700 text-sm mb-1"><i class="fa-solid fa-head-side-cough text-secondary mr-1"></i> Symptom Check</div>
+                        <div class="text-xs text-slate-500">I've had a headache for 3 days and feel dizzy.</div>
+                    </button>
+                    <button class="suggestion-btn text-left p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-blue-50 transition">
+                        <div class="font-bold text-slate-700 text-sm mb-1"><i class="fa-solid fa-apple-whole text-red-500 mr-1"></i> Healthy Diet</div>
+                        <div class="text-xs text-slate-500">How can I lower my blood pressure naturally?</div>
+                    </button>
+                    <button class="suggestion-btn text-left p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-blue-50 transition">
+                        <div class="font-bold text-slate-700 text-sm mb-1"><i class="fa-solid fa-bed text-purple-500 mr-1"></i> Sleep Hygiene</div>
+                        <div class="text-xs text-slate-500">I have trouble falling asleep. Any tips?</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages will be injected here -->
+            <div id="messages-wrapper" class="flex flex-col gap-6 hidden w-full"></div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="typing-indicator" class="hidden flex justify-start">
+                <div class="bg-slate-100 rounded-2xl rounded-tl-sm px-5 py-4 max-w-[85%] sm:max-w-[75%]">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="chat-anchor"></div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="bg-white rounded-b-3xl p-4 md:p-6 border-t border-slate-100 shadow-sm relative z-10">
+            <form id="chat-form" class="relative">
+                <textarea id="chat-input" rows="1" placeholder="Type your health question here..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-5 pr-14 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition resize-none overflow-hidden block"></textarea>
+                <button type="submit" id="send-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-blue-600 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+            <p class="text-center text-[10px] text-slate-400 mt-3 mb-0">SymptoScan AI can make mistakes. Always consult a real doctor for medical advice.</p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

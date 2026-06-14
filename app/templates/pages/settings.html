@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Settings - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative">
+    <div class="container mx-auto px-4 max-w-3xl">
+        <h1 class="text-3xl font-extrabold text-slate-900 mb-8">Account Settings</h1>
+        
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b pb-3">Profile Information</h3>
+            <form>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                        <input type="text" value="John Doe" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <input type="email" value="john@example.com" class="w-full px-4 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 bg-slate-50">
+                    </div>
+                </div>
+                <button type="button" id="btn-save-profile" class="px-6 py-2 bg-primary text-white font-bold rounded-xl shadow-md hover:bg-blue-700 transition">Save Changes</button>
+                <div id="settings-toast" class="hidden mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-check-circle"></i> Profile updated successfully!
+                </div>
+            </form>
+        </div>
+        
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b pb-3">Notification Preferences</h3>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="font-bold text-slate-700">Email Alerts</div>
+                        <div class="text-sm text-slate-500">Receive alerts when risk reports are ready.</div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" value="" class="sr-only peer" checked>
+                      <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('btn-save-profile').addEventListener('click', () => {
+        const btn = document.getElementById('btn-save-profile');
+        const toast = document.getElementById('settings-toast');
+        
+        // Simulate API delay
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            btn.innerHTML = 'Save Changes';
+            btn.disabled = false;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+        }, 800);
+    });
+</script>
+{% endblock %}

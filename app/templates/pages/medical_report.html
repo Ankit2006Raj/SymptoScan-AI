@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Medical Report Analysis - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative">
+    <div class="container mx-auto px-4 max-w-5xl">
+        
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-blue text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-file-medical mr-2"></i> Document Intelligence
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">Medical Report Analysis</h1>
+            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Upload your lab results or medical reports. Our AI will extract the text, identify abnormal values, and provide an easy-to-understand summary.</p>
+        </div>
+
+        <!-- Upload Zone -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8" id="upload-section">
+            <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-2xl p-12 text-center hover:border-primary hover:bg-blue-50 transition cursor-pointer relative">
+                <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".pdf,.png,.jpg,.jpeg">
+                <div class="w-20 h-20 bg-blue-100 text-primary rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Drag & Drop your report here</h3>
+                <p class="text-slate-500 mb-4">or click to browse from your device</p>
+                <div class="text-xs text-slate-400 font-medium">Supported formats: PDF, JPG, PNG (Max 5MB)</div>
+            </div>
+
+            <!-- Uploading State -->
+            <div id="uploading-state" class="hidden text-center py-12">
+                <div class="w-16 h-16 border-4 border-slate-200 border-t-primary rounded-full animate-spin mx-auto mb-6"></div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Analyzing Document...</h3>
+                <p class="text-slate-500 text-sm" id="upload-status-text">Extracting text using OCR and running AI analysis.</p>
+            </div>
+        </div>
+
+        <!-- Results Dashboard -->
+        <div id="report-dashboard" class="hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">Analysis Results</h2>
+                <button id="btn-new-upload" class="px-5 py-2 bg-white border border-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-upload"></i> Upload Another
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left: Summary & Recs -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Summary Card -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-file-waveform text-primary"></i> Executive Summary
+                        </h3>
+                        <p class="text-slate-700 leading-relaxed" id="summary-text"></p>
+                    </div>
+
+                    <!-- Recommendations Card -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-stethoscope text-secondary"></i> AI Recommendations
+                        </h3>
+                        <ul id="recommendations-list" class="space-y-3"></ul>
+                    </div>
+                </div>
+
+                <!-- Right: Abnormal Values -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl p-6 border border-red-100 shadow-sm h-full">
+                        <h3 class="text-lg font-bold text-red-600 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Abnormal Values Detected
+                        </h3>
+                        <div id="abnormal-values-container" class="space-y-4">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}

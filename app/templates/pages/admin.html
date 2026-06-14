@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative">
+    <div class="container mx-auto px-4 max-w-6xl">
+        
+        <div class="mb-10">
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-2">Admin Dashboard</h1>
+            <p class="text-slate-500 text-sm">System oversight, user metrics, and contact messages.</p>
+        </div>
+
+        <!-- Admin Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                <div class="text-sm text-slate-500 font-bold uppercase mb-1">Total Users</div>
+                <div class="text-3xl font-extrabold text-slate-800">1,204</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                <div class="text-sm text-slate-500 font-bold uppercase mb-1">Risk Assessments</div>
+                <div class="text-3xl font-extrabold text-slate-800">4,582</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                <div class="text-sm text-slate-500 font-bold uppercase mb-1">Reports Analyzed</div>
+                <div class="text-3xl font-extrabold text-slate-800">893</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm border-l-4 border-l-amber-400">
+                <div class="text-sm text-slate-500 font-bold uppercase mb-1">Unread Messages</div>
+                <div class="text-3xl font-extrabold text-amber-500">12</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Recent System Activity</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center shrink-0"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="flex-grow text-slate-700">PDF Report Exported by User #102</div>
+                        <div class="text-slate-400 text-xs">2 mins ago</div>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="flex-grow text-slate-700">High Risk Diabetes Prediction Alert</div>
+                        <div class="text-slate-400 text-xs">15 mins ago</div>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0"><i class="fa-solid fa-user-plus"></i></div>
+                        <div class="flex-grow text-slate-700">New User Registration</div>
+                        <div class="text-slate-400 text-xs">1 hr ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Messages -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Contact Form Submissions</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="font-bold text-slate-800 text-sm">Jane Smith</div>
+                            <span class="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs font-bold">Unread</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-2 line-clamp-2">"I was trying to upload my PDF report but it said the file was too large. What is the limit?"</p>
+                        <a href="javascript:void(0)" onclick="alert('Message reply module coming soon!')" class="text-xs text-primary font-bold hover:underline">Reply</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

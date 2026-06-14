@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+{% block title %}Respiratory Disease Risk Prediction - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen pt-24 pb-12 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-10">
+            <a href="{{ url_for('views.risk_prediction') }}" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500 hover:text-sky-600 hover:border-sky-600 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="bg-sky-50 text-sky-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"><i class="fa-solid fa-lungs mr-1"></i> Pulmonology Module</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Respiratory Health Assessment</h1>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left: Wizard Form (Takes up 3 columns) -->
+            <div class="lg:col-span-3" id="wizard-container">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    
+                    <!-- Progress Tracker -->
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">
+                            <span id="step-label">Step 1 of 3: Patient Profile</span>
+                            <span id="step-percentage">33%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
+                            <div id="wizard-progress" class="bg-gradient-to-r from-sky-400 to-cyan-500 h-2 rounded-full transition-all duration-500" style="width: 33%"></div>
+                        </div>
+                    </div>
+
+                    <form id="prediction-form" data-disease="respiratory">
+                        
+                        <!-- Step 1: Patient Profile -->
+                        <div id="step-1" class="wizard-step block">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-user-doctor"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Patient Profile & Environment</h3>
+                                <p class="text-slate-500 text-sm">Provide your demographics and environmental factors.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Your Age</label>
+                                    <div class="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-sky-600 hover:bg-slate-100 transition flex items-center justify-center border-r border-slate-200" onclick="document.getElementById('age').stepDown()"><i class="fa-solid fa-minus"></i></button>
+                                        <input type="number" id="age" required min="1" max="120" value="40" class="w-full h-12 text-center text-xl font-bold text-slate-800 focus:outline-none appearance-none bg-transparent">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-sky-600 hover:bg-slate-100 transition flex items-center justify-center border-l border-slate-200" onclick="document.getElementById('age').stepUp()"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Gender</label>
+                                    <select id="gender" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Smoking Status</label>
+                                    <select id="smoking" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="no">Never Smoked</option>
+                                        <option value="former">Former Smoker</option>
+                                        <option value="current">Current Smoker</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">High Environmental/Occupational Dust Exposure?</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="environmental_exposure" id="environmental_exposure" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-sky-500 peer-checked:bg-sky-50 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="environmental_exposure" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex justify-end">
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-sky-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(1)">
+                                    Continue to History <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Medical History -->
+                        <div id="step-2" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-notes-medical"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Medical History</h3>
+                                <p class="text-slate-500 text-sm">Select any known respiratory conditions.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">History of Asthma?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="asthma_history" id="asthma_history" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-check text-slate-300 peer-checked:text-indigo-500 text-2xl mb-2"></i>
+                                                <span class="block font-bold text-slate-700">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="asthma_history" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-slate-400 peer-checked:bg-slate-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-xmark text-slate-300 peer-checked:text-slate-500 text-2xl mb-2"></i>
+                                                <span class="block font-bold text-slate-700">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">History of COPD?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="copd_history" id="copd_history" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-check text-slate-300 peer-checked:text-indigo-500 text-2xl mb-2"></i>
+                                                <span class="block font-bold text-slate-700">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="copd_history" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-slate-400 peer-checked:bg-slate-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-xmark text-slate-300 peer-checked:text-slate-500 text-2xl mb-2"></i>
+                                                <span class="block font-bold text-slate-700">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(2)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-sky-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(2)">
+                                    Continue to Symptoms <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Symptoms & Vitals -->
+                        <div id="step-3" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-head-side-cough"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Symptoms & Vitals</h3>
+                                <p class="text-slate-500 text-sm">Provide details on your current respiratory distress.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 md:col-span-2">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Duration of Cough</label>
+                                    <select id="cough_duration" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-sky-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="none">No Cough</option>
+                                        <option value="less_than_3_weeks">Acute (Less than 3 weeks)</option>
+                                        <option value="more_than_3_weeks">Chronic (More than 3 weeks)</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 md:col-span-2 max-w-sm">
+                                    <label class="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                                        <span>Oxygen Saturation (SpO2)</span>
+                                        <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded text-slate-500">%</span>
+                                    </label>
+                                    <input type="number" id="oxygen_saturation" required min="50" max="100" placeholder="e.g. 98" value="98" class="w-full px-3 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-sky-500/20 bg-white font-bold text-slate-800">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Wheezing?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="wheezing" id="wheezing" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="wheezing" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Shortness of Breath?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="shortness_of_breath" id="shortness_of_breath" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="shortness_of_breath" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Chest Tightness?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="chest_tightness" id="chest_tightness" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="chest_tightness" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(3)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="submit" class="px-10 py-3.5 bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/30 transition flex items-center gap-2" id="submit-btn">
+                                    Calculate Respiratory Risk <i class="fa-solid fa-microchip"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Context Pane -->
+            <div class="hidden lg:block lg:col-span-1" id="info-sidebar">
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm sticky top-28">
+                    <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 mb-4">
+                        <i class="fa-solid fa-lungs text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">Why we ask this</h4>
+                    <p class="text-sm text-slate-500 mb-4 leading-relaxed">Respiratory health involves the lungs and airway. Chronic conditions can progress slowly.</p>
+                    <ul class="space-y-3 text-xs text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-500 mt-0.5"></i> <strong>Oxygen Saturation</strong> indicates how well oxygen is being transported to your organs.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-500 mt-0.5"></i> <strong>Smoking</strong> is the number one cause of severe pulmonary diseases like COPD.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results Dashboard -->
+            <div class="lg:col-span-4 hidden" id="results-dashboard">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Respiratory Health Analysis</h3>
+                            <p class="text-slate-500 text-sm">AI-generated risk prediction based on your profile.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                        <div class="md:col-span-4 flex flex-col items-center justify-center p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                            <div class="relative w-48 h-48">
+                                <canvas id="gaugeChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-8">
+                                    <span class="text-5xl font-extrabold text-slate-800" id="risk-score-value">0%</span>
+                                </div>
+                            </div>
+                            <span class="mt-4 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full" id="risk-category-badge">CALCULATING</span>
+                        </div>
+                        
+                        <div class="md:col-span-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                                <div class="bg-sky-50/50 rounded-2xl p-6 border border-sky-100/50">
+                                    <h4 class="font-bold text-sky-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-sky-500"></i> Identified Risk Factors</h4>
+                                    <ul id="factors-list" class="space-y-3"></ul>
+                                </div>
+                                
+                                <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100/50">
+                                    <h4 class="font-bold text-emerald-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-shield-heart text-emerald-500"></i> Protective Actions</h4>
+                                    <ul id="recs-list" class="space-y-3"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 uppercase tracking-wider">Risk Trend (Last 6 Months)</h4>
+                        <div class="w-full h-48">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function nextStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        
+        const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+        let valid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+        if (!valid) return;
+
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const nextStepEl = document.getElementById(`step-${current + 1}`);
+        nextStepEl.classList.remove('hidden');
+        nextStepEl.classList.add('block');
+
+        updateProgress(current + 1);
+    }
+
+    function prevStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const prevStepEl = document.getElementById(`step-${current - 1}`);
+        prevStepEl.classList.remove('hidden');
+        prevStepEl.classList.add('block');
+
+        updateProgress(current - 1);
+    }
+
+    function updateProgress(step) {
+        const labels = {
+            1: "Step 1 of 3: Patient Profile",
+            2: "Step 2 of 3: Medical History",
+            3: "Step 3 of 3: Symptoms & Vitals"
+        };
+        const pct = {1: '33%', 2: '66%', 3: '100%'};
+        document.getElementById('step-label').textContent = labels[step];
+        document.getElementById('step-percentage').textContent = pct[step];
+        document.getElementById('wizard-progress').style.width = pct[step];
+    }
+</script>
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+{% endblock %}
