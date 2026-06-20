@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 3. Display Results
-            renderResults(data.results);
+            renderResults(data.results, data.prediction_id);
             
         } catch (error) {
             alert('Error: ' + error.message);
@@ -62,9 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function renderResults(results) {
+    function renderResults(results, predictionId) {
         if (diseaseType === 'comprehensive') {
-            renderComprehensiveResults(results);
+            renderComprehensiveResults(results, predictionId);
             return;
         }
 
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function renderComprehensiveResults(results) {
+    function renderComprehensiveResults(results, predictionId) {
         document.getElementById('results-dashboard').classList.remove('hidden');
         
         const diseases = ['diabetes', 'heart', 'kidney', 'liver'];
@@ -293,6 +293,17 @@ document.addEventListener('DOMContentLoaded', () => {
         allRecs.forEach(r => {
             rList.insertAdjacentHTML('beforeend', `<li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle-check text-purple-500 mt-1"></i> ${r}</li>`);
         });
+
+        // Bind Report Center Buttons
+        const viewBtn = document.getElementById('btn-view-report');
+        const downBtn = document.getElementById('btn-download-report');
+        if (viewBtn && downBtn && predictionId) {
+            viewBtn.classList.remove('hidden');
+            downBtn.classList.remove('hidden');
+            
+            viewBtn.onclick = () => window.open(`/api/export-report/risk_prediction/${predictionId}?view=1`, '_blank');
+            downBtn.onclick = () => window.open(`/api/export-report/risk_prediction/${predictionId}`, '_blank');
+        }
 
         document.getElementById('results-dashboard').scrollIntoView({ behavior: 'smooth' });
     }

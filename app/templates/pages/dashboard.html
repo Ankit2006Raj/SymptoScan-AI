@@ -2,72 +2,140 @@
 {% block title %}Analytics Dashboard - SymptoScan AI{% endblock %}
 
 {% block content %}
-<div class="bg-slate-50 min-h-screen py-24 relative">
-    <div class="container mx-auto px-4 max-w-6xl">
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="bg-slate-50 min-h-screen py-16 relative">
+    <div class="container mx-auto px-4 max-w-7xl">
         
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <!-- Header & Actions -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold text-slate-900 mb-2">My Health Dashboard</h1>
-                <p class="text-slate-500 text-sm">A complete overview of your health timeline, risk analytics, and recent reports.</p>
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">Health Analytics</h1>
+                <p class="text-slate-500 text-sm">Comprehensive insights, trends, and risk distributions from your health assessments.</p>
             </div>
-            <div class="flex gap-3">
-                <a href="{{ url_for('views.symptom_checker') }}" class="px-4 py-2 bg-white text-slate-700 font-bold border border-slate-200 rounded-xl hover:bg-slate-50 transition text-sm flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-plus"></i> New Check
-                </a>
-                <a href="{{ url_for('views.risk_prediction') }}" class="px-4 py-2 bg-primary text-white font-bold rounded-xl hover:bg-blue-700 transition text-sm flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-chart-line"></i> Predict Risk
+            <div class="flex flex-wrap gap-3">
+                <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+                    <i class="fa-solid fa-filter text-slate-400 text-sm"></i>
+                    <select class="bg-transparent text-sm font-medium text-slate-700 outline-none">
+                        <option>Last 30 Days</option>
+                        <option>Last 6 Months</option>
+                        <option>All Time</option>
+                    </select>
+                </div>
+                <button class="px-4 py-2 bg-white text-slate-700 font-bold border border-slate-200 rounded-xl hover:bg-slate-50 transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-download"></i> Export Data
+                </button>
+                <a href="{{ url_for('views.symptom_checker') }}" class="px-4 py-2 bg-primary text-white font-bold rounded-xl hover:bg-blue-700 transition text-sm flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-plus"></i> New Assessment
                 </a>
             </div>
         </div>
 
+        <!-- AI Summary Cards (Glassmorphism) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-5 shadow-lg text-white relative overflow-hidden group">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Most Frequent Symptom</div>
+                <div class="text-2xl font-extrabold" id="ai-symptom">Loading...</div>
+                <i class="fa-solid fa-head-side-cough absolute bottom-4 right-4 text-4xl opacity-20"></i>
+            </div>
+            
+            <div class="bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl p-5 shadow-lg text-white relative overflow-hidden group">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="text-red-100 text-xs font-bold uppercase tracking-wider mb-1">Highest Risk Category</div>
+                <div class="text-2xl font-extrabold" id="ai-risk">Loading...</div>
+                <i class="fa-solid fa-triangle-exclamation absolute bottom-4 right-4 text-4xl opacity-20"></i>
+            </div>
+
+            <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-5 shadow-lg text-white relative overflow-hidden group">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="text-emerald-100 text-xs font-bold uppercase tracking-wider mb-1">Health Trend</div>
+                <div class="text-2xl font-extrabold" id="ai-trend">Loading...</div>
+                <i class="fa-solid fa-arrow-trend-up absolute bottom-4 right-4 text-4xl opacity-20"></i>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 shadow-lg text-white relative overflow-hidden group">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Recommended Action</div>
+                <div class="text-lg font-bold leading-tight mt-1" id="ai-action">Loading...</div>
+                <i class="fa-solid fa-user-doctor absolute bottom-4 right-4 text-4xl opacity-20"></i>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left: KPIs and Charts -->
+            
+            <!-- Left Column: KPIs and Main Charts -->
             <div class="lg:col-span-2 space-y-8">
-                <!-- KPI Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-50 text-primary rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-file-medical"></i></div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-800" id="kpi-reports">-</div>
-                            <div class="text-xs text-slate-500 font-medium">Reports Analyzed</div>
-                        </div>
+                
+                <!-- KPI Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-slate-500 text-xs font-bold uppercase mb-1">Total Assessments</div>
+                        <div class="text-3xl font-extrabold text-slate-800" id="kpi-total">-</div>
                     </div>
-                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-heart-pulse"></i></div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-800" id="kpi-risks">-</div>
-                            <div class="text-xs text-slate-500 font-medium">Risk Assessments</div>
-                        </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-slate-500 text-xs font-bold uppercase mb-1">Avg Health Score</div>
+                        <div class="text-3xl font-extrabold text-emerald-600" id="kpi-score">-</div>
                     </div>
-                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-stethoscope"></i></div>
-                        <div>
-                            <div class="text-2xl font-bold text-slate-800" id="kpi-symptoms">-</div>
-                            <div class="text-xs text-slate-500 font-medium">Symptom Checks</div>
-                        </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-slate-500 text-xs font-bold uppercase mb-1">Reports Analyzed</div>
+                        <div class="text-3xl font-extrabold text-slate-800" id="kpi-reports">-</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition">
+                        <div class="text-slate-500 text-xs font-bold uppercase mb-1">Active Alerts</div>
+                        <div class="text-3xl font-extrabold text-rose-500" id="kpi-alerts">-</div>
                     </div>
                 </div>
 
-                <!-- Activity Chart -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2">Activity Overview</h3>
-                    <div class="h-64 w-full">
-                        <canvas id="activityChart"></canvas>
+                <!-- Charts Grid 2x2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Health Trends Line Chart -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm md:col-span-2">
+                        <h3 class="text-base font-bold text-slate-800 mb-4">Health Assessment Trends</h3>
+                        <div class="h-64">
+                            <canvas id="healthTrendsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Risk Distribution Pie Chart -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                        <h3 class="text-base font-bold text-slate-800 mb-4">Risk Distribution</h3>
+                        <div class="h-64 flex justify-center">
+                            <canvas id="riskDistChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Common Symptoms Bar Chart -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+                        <h3 class="text-base font-bold text-slate-800 mb-4">Top Symptoms</h3>
+                        <div class="h-64">
+                            <canvas id="symptomsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Disease Categories -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm md:col-span-2">
+                        <h3 class="text-base font-bold text-slate-800 mb-4">Predicted Disease Categories</h3>
+                        <div class="h-64">
+                            <canvas id="diseaseCategoryChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Health Timeline -->
+            <!-- Right Column: Timeline -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm h-full">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-timeline text-primary"></i> Health Timeline
+                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm h-full max-h-[1200px] overflow-y-auto custom-scrollbar">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-3 flex items-center gap-2 sticky top-0 bg-white z-10">
+                        <i class="fa-solid fa-list-check text-primary"></i> Assessment Timeline
                     </h3>
                     
-                    <div id="timeline-container" class="relative border-l border-slate-200 ml-3 space-y-8 pb-4">
+                    <div id="timeline-container" class="relative border-l-2 border-slate-100 ml-3 space-y-6 pb-4">
                         <!-- Injected via JS -->
                         <div class="text-center py-10 text-slate-400 text-sm ml-[-12px]">
-                            <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2 text-slate-300"></i><br>
+                            <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2 text-primary"></i><br>
                             Loading timeline...
                         </div>
                     </div>
@@ -76,6 +144,23 @@
         </div>
     </div>
 </div>
+
+<style>
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+</style>
 {% endblock %}
 
 {% block scripts %}

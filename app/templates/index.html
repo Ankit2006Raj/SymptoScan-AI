@@ -1,487 +1,766 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        <!-- Background decorative elements -->
-        <div class="absolute top-0 right-0 -mr-40 -mt-40 w-96 h-96 rounded-full bg-blue-100/50 blur-3xl opacity-60 pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 -ml-40 -mb-40 w-96 h-96 rounded-full bg-emerald-100/50 blur-3xl opacity-60 pointer-events-none"></div>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+    <!-- Background decorative elements -->
+    <div
+        class="absolute top-0 right-0 -mr-40 -mt-40 w-96 h-96 rounded-full bg-blue-100/50 blur-3xl opacity-60 pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 -ml-40 -mb-40 w-96 h-96 rounded-full bg-emerald-100/50 blur-3xl opacity-60 pointer-events-none">
+    </div>
 
-        <div class="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
-            <div class="row items-center">
-                
-                <!-- Left Content -->
-                <div class="col-lg-6 mb-12 lg:mb-0 reveal active">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full badge-soft-blue text-xs font-semibold mb-6">
-                        <i class="fa-solid fa-sparkles text-primary"></i> AI-Powered Symptom Analysis
+    <div class="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+        <div class="row items-center">
+
+            <!-- Left Content -->
+            <div class="col-lg-6 mb-16 lg:mb-0 reveal active z-20">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-xs font-bold text-primary tracking-wide uppercase mb-6 shadow-sm">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    AI-Powered Health Intelligence
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl lg:text-6xl xl:text-[4rem] font-extrabold text-slate-900 leading-[1.1] mb-6 tracking-tight">
+                    Understand Your <br>Symptoms.<br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">Protect</span>
+                    Your Health.
+                </h1>
+
+                <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed font-light">
+                    SymptoScan AI analyzes your symptoms, predicts potential health risks, and provides personalized
+                    recommendations to help you take control of your health.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-6 mb-12">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-sm border border-emerald-100">
+                            <i class="fa-solid fa-robot text-sm"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-700">AI Symptom Analysis</span>
                     </div>
-                    
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
-                        Understand Your <br>Symptoms.<br>
-                        <span class="text-gradient-green">Protect</span> Your Health.
-                    </h1>
-                    
-                    <p class="text-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
-                        SymptoScan AI analyzes your symptoms, predicts potential health risks, and provides personalized recommendations to help you take control of your health.
-                    </p>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 text-sm font-medium text-slate-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-secondary"></i> AI Symptom Analysis
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary shadow-sm border border-blue-100">
+                            <i class="fa-solid fa-shield-heart text-sm"></i>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-secondary"></i> Disease Risk Prediction
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-secondary"></i> Medical Report Analysis
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-secondary"></i> Personalized Recommendations
-                        </div>
+                        <span class="text-sm font-semibold text-slate-700">Disease Risk Prediction</span>
                     </div>
-                    
-                    <div class="flex flex-wrap items-center gap-4 mb-12">
-                        <a href="{{ url_for('views.symptom_checker') }}" class="px-8 py-3.5 bg-primary hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg shadow-blue-500/30 transition flex items-center gap-2 no-underline">
-                            Start Free Health Assessment <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                        <a href="{{ url_for('views.medical_report') }}" class="px-8 py-3.5 bg-white text-slate-700 font-semibold rounded-full shadow-card hover:shadow-lg transition flex items-center gap-2 border border-slate-100 no-underline">
-                            <i class="fa-solid fa-play text-slate-900 bg-slate-100 rounded-full p-2 text-xs"></i> Watch Demo
-                        </a>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500 shadow-sm border border-indigo-100">
+                            <i class="fa-solid fa-file-medical text-sm"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-slate-700">Medical Report Analysis</span>
                     </div>
-                    
-                    <!-- Trust Indicators Small -->
-                    <div class="flex flex-wrap items-center gap-6 pt-6 border-t border-slate-200/60">
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                            <i class="fa-solid fa-shield-halved text-slate-400 text-lg"></i> HIPAA<br>Compliant
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shadow-sm border border-rose-100">
+                            <i class="fa-solid fa-star text-sm"></i>
                         </div>
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                            <i class="fa-solid fa-lock text-slate-400 text-lg"></i> 256-bit<br>Encryption
-                        </div>
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                            <i class="fa-solid fa-users text-slate-400 text-lg"></i> Trusted by<br>10K+ Users
-                        </div>
-                        <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                            <i class="fa-solid fa-stethoscope text-slate-400 text-lg"></i> Clinically<br>Informed AI
-                        </div>
+                        <span class="text-sm font-semibold text-slate-700">Personalized Insights</span>
                     </div>
                 </div>
 
-                <!-- Right Content (Dashboard Mockup) -->
-                <div class="col-lg-6 relative reveal active">
-                    <!-- Main AI Chat Card -->
-                    <div class="bg-white rounded-3xl p-6 shadow-soft border border-slate-100 max-w-lg mx-auto relative z-10 animate-float">
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-primary">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-                            <h3 class="font-bold text-slate-800 text-sm">AI Symptom Analysis</h3>
-                        </div>
-                        
-                        <!-- User Input -->
-                        <div class="bg-slate-50 rounded-2xl p-4 mb-6 border border-slate-100 flex justify-between items-center group">
-                            <p class="text-sm text-slate-600 font-medium mb-0">I have headache, fever and fatigue for 2 days.</p>
-                            <button class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center opacity-80 group-hover:opacity-100 transition shadow-md border-0">
-                                <i class="fa-solid fa-volume-high text-xs"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Progress Area -->
-                        <div class="mb-4">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xs font-bold text-slate-800 flex items-center gap-2 mb-0">
-                                    <i class="fa-solid fa-users text-primary"></i> Analysis in Progress...
-                                </h4>
-                                <span class="text-xs font-bold text-primary">85%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-2">
-                                <div class="bg-primary h-2 rounded-full w-[85%] relative overflow-hidden">
-                                    <div class="absolute top-0 left-0 bottom-0 right-0 bg-white/20 animate-pulse-glow"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Analysis Steps -->
-                        <div class="space-y-3 mt-6">
-                            <div class="flex items-center gap-3 text-xs font-medium">
-                                <i class="fa-solid fa-circle-check text-secondary text-sm"></i> 
-                                <span class="text-slate-600">Understanding symptoms</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs font-medium">
-                                <i class="fa-solid fa-circle-check text-secondary text-sm"></i> 
-                                <span class="text-slate-600">Checking related conditions</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs font-medium">
-                                <i class="fa-solid fa-circle-check text-secondary text-sm"></i> 
-                                <span class="text-slate-600">Evaluating risk factors</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-xs font-medium opacity-50">
-                                <i class="fa-regular fa-circle-check text-secondary text-sm"></i> 
-                                <span class="text-slate-600">Generating recommendations</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating Card 1: Health Risk Score -->
-                    <div class="absolute -top-10 -right-4 lg:-right-10 bg-white rounded-2xl p-5 shadow-card border border-slate-100 w-64 z-20 animate-float-delayed hidden md:block">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bold text-slate-800 text-xs mb-0">Health Risk Score</h3>
-                            <i class="fa-solid fa-shield text-slate-200"></i>
-                        </div>
-                        <!-- Simple SVG Doughnut Chart -->
-                        <div class="flex justify-center items-center my-4 relative">
-                            <svg class="w-24 h-24 transform -rotate-90">
-                                <circle cx="48" cy="48" r="40" stroke="#f1f5f9" stroke-width="8" fill="none"></circle>
-                                <circle cx="48" cy="48" r="40" stroke="#f59e0b" stroke-width="8" fill="none" stroke-dasharray="251.2" stroke-dashoffset="70" class="transition-all duration-1000"></circle>
-                            </svg>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center pt-1">
-                                <span class="text-2xl font-bold text-slate-800 leading-none">72</span>
-                                <span class="text-[8px] text-slate-400 font-medium">/100</span>
-                            </div>
-                        </div>
-                        <div class="text-center mb-4">
-                            <span class="text-[10px] font-bold text-amber-500">Moderate Risk</span>
-                        </div>
-                        <a href="{{ url_for('views.medical_report') }}" class="text-xs font-semibold text-primary hover:text-blue-700 flex items-center justify-center gap-1 w-full no-underline">View Full Report <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-
-                    <!-- Floating Card 2: Top Conditions -->
-                    <div class="absolute -bottom-16 -right-2 lg:-right-8 bg-white rounded-2xl p-5 shadow-card border border-slate-100 w-72 z-20 animate-float-fast hidden md:block">
-                        <h3 class="font-bold text-slate-800 text-xs mb-4">Top Possible Conditions</h3>
-                        
-                        <div class="space-y-3 mb-4">
-                            <div class="flex justify-between items-center p-2 rounded-lg bg-blue-50/50">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-virus text-primary bg-white p-1.5 rounded-full text-[10px] shadow-sm"></i>
-                                    <span class="text-xs font-semibold text-slate-700">Viral Fever</span>
-                                </div>
-                                <span class="text-[10px] font-bold text-secondary">78% Match</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded-lg hover:bg-slate-50 transition cursor-pointer">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-lungs-virus text-primary bg-blue-50 p-1.5 rounded-full text-[10px]"></i>
-                                    <span class="text-xs font-semibold text-slate-600">Influenza</span>
-                                </div>
-                                <span class="text-[10px] font-bold text-secondary">58% Match</span>
-                            </div>
-                            <div class="flex justify-between items-center p-2 rounded-lg hover:bg-slate-50 transition cursor-pointer">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-mosquito text-primary bg-blue-50 p-1.5 rounded-full text-[10px]"></i>
-                                    <span class="text-xs font-semibold text-slate-600">Dengue Fever</span>
-                                </div>
-                                <span class="text-[10px] font-bold text-secondary">41% Match</span>
-                            </div>
-                        </div>
-                        
-                        <a href="{{ url_for('views.dashboard') }}" class="text-xs font-semibold text-primary hover:text-blue-700 flex items-center justify-center gap-1 w-full border-t border-slate-100 pt-3 transition no-underline">View All Results <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-1/4 -left-10 text-blue-100 text-4xl opacity-50 z-0 animate-pulse"><i class="fa-solid fa-shield-heart"></i></div>
-                    <div class="absolute bottom-1/4 -right-16 text-emerald-100 text-4xl opacity-50 z-0 animate-pulse"><i class="fa-solid fa-plus"></i></div>
-                    
-                    <!-- Robot Image Placeholder using icon -->
-                    <div class="absolute top-1/3 -right-20 text-blue-200 text-7xl opacity-40 z-0 animate-float">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust Large Section -->
-    <section class="py-10 bg-white border-y border-slate-100">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-sm font-semibold text-slate-500 mb-8">Trusted by thousands of users and healthcare professionals</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition duration-500">
-                <!-- Using text placeholders since we don't have logo images -->
-                <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-hospital"></i> Apollo Hospitals</div>
-                <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-house-medical"></i> Fortis Healthcare</div>
-                <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-star-of-life"></i> MAX Healthcare</div>
-                <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-briefcase-medical"></i> Manipal Hospitals</div>
-                <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-heart-pulse"></i> Medanta</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section id="stats-section" class="py-12 bg-white">
-        <div class="container mx-auto px-4 md:px-6 lg:px-8">
-            <div class="bg-gradient-primary rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden text-white">
-                <!-- BG decorations -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
-                    <!-- Stat 1 -->
-                    <div class="text-center">
-                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-primary bg-white">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="10000" data-float="false">0</span>+</h2>
-                        <p class="text-sm font-medium text-slate-300 mb-0">Assessments Completed</p>
-                    </div>
-                    <!-- Stat 2 -->
-                    <div class="text-center">
-                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-secondary bg-white">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="98.6" data-float="true">0</span>%</h2>
-                        <p class="text-sm font-medium text-slate-300 mb-0">AI Accuracy Rate</p>
-                    </div>
-                    <!-- Stat 3 -->
-                    <div class="text-center">
-                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-primary bg-white">
-                            <i class="fa-solid fa-heart-pulse"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="500" data-float="false">0</span>+</h2>
-                        <p class="text-sm font-medium text-slate-300 mb-0">Health Conditions Analyzed</p>
-                    </div>
-                    <!-- Stat 4 -->
-                    <div class="text-center">
-                        <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-secondary bg-white">
-                            <i class="fa-solid fa-face-smile"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="4.9" data-float="true">0</span>/5</h2>
-                        <p class="text-sm font-medium text-slate-300 mb-0">User Satisfaction</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="py-20 bg-slate-50/50">
-        <div class="container mx-auto px-4 md:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
-                    <i class="fa-solid fa-bolt mr-2"></i> Powerful Features
-                </div>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Everything You Need for Smarter Health Decisions</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
-                <!-- Feature 1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-user-doctor"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">AI Symptom Checker</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Describe your symptoms in natural language and get AI-powered health insights.</p>
-                    <a href="{{ url_for('views.symptom_checker') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <!-- Feature 2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-virus-covid"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Disease Risk Prediction</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Predict your risk for chronic diseases using advanced machine learning models.</p>
-                    <a href="{{ url_for('views.risk_prediction') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <!-- Feature 3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-file-medical"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Medical Report Analysis</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Upload medical reports and get instant AI analysis with key insights extracted.</p>
-                    <a href="{{ url_for('views.medical_report') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <!-- Feature 4 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 text-xl mb-6 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-clipboard-list"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Personalized Recommendations</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Receive personalized diet, exercise, and lifestyle recommendations based on your health.</p>
-                    <a href="{{ url_for('views.about') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <!-- Feature 5 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">AI Health Assistant</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Chat with our AI health assistant for follow-up questions and health guidance.</p>
-                    <a href="{{ url_for('views.ai_assistant') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-
-                <!-- Feature 7 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Health Analytics Dashboard</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">Track your health trends with beautiful analytics and interactive charts.</p>
-                    <a href="{{ url_for('views.dashboard') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                <!-- Feature 8 -->
-                <div class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 text-xl mb-6 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Assessment History</h3>
-                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">View your past assessments and track your health journey over time.</p>
-                    <a href="{{ url_for('views.dashboard') }}" class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-20 bg-white overflow-hidden">
-        <div class="container mx-auto px-4 md:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
-                    <i class="fa-solid fa-list-ol mr-2"></i> Simple Process
-                </div>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Your Health Journey in 4 Simple Steps</h2>
-            </div>
-
-            <div class="relative max-w-5xl mx-auto reveal">
-                <!-- Desktop Timeline Line -->
-                <div class="hidden md:block timeline-line"></div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <!-- Step 1 -->
-                    <div class="relative text-center timeline-dot group">
-                        <div class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
-                            <i class="fa-solid fa-user-pen text-2xl text-primary"></i>
-                            <div class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">1</div>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Enter Symptoms</h3>
-                        <p class="text-sm text-slate-600 px-2">Describe your symptoms in simple words</p>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="relative text-center timeline-dot group">
-                        <div class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
-                            <i class="fa-solid fa-microchip text-2xl text-primary"></i>
-                            <div class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">2</div>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">AI Analysis</h3>
-                        <p class="text-sm text-slate-600 px-2">Our AI analyzes your symptoms and data</p>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="relative text-center timeline-dot group">
-                        <div class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
-                            <i class="fa-solid fa-shield-heart text-2xl text-primary"></i>
-                            <div class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">3</div>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Risk Prediction</h3>
-                        <p class="text-sm text-slate-600 px-2">Get risk prediction for possible conditions</p>
-                    </div>
-                    <!-- Step 4 -->
-                    <div class="relative text-center timeline-dot group">
-                        <div class="w-20 h-20 mx-auto bg-white border-4 border-green-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-secondary transition-colors relative z-10">
-                            <i class="fa-solid fa-star text-2xl text-secondary"></i>
-                            <div class="absolute -top-2 -right-2 w-6 h-6 bg-secondary text-white text-xs font-bold rounded-full flex items-center justify-center">4</div>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Recommendations</h3>
-                        <p class="text-sm text-slate-600 px-2">Receive personalized health recommendations</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Dashboard Preview Section -->
-    <section class="py-20 bg-slate-50/50">
-        <div class="container mx-auto px-4 md:px-6 lg:px-8">
-            <div class="row items-center">
-                <!-- Left Content -->
-                <div class="col-lg-5 mb-12 lg:mb-0 reveal">
-                    <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
-                        <i class="fa-solid fa-desktop mr-2"></i> Product Preview
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight mb-6">
-                        Advanced Health Insights at Your Fingertips
-                    </h2>
-                    <p class="text-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
-                        Get comprehensive health insights with our intuitive dashboard, advanced analytics, and personalized recommendations.
-                    </p>
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-center gap-3 text-slate-700 font-medium"><i class="fa-regular fa-circle-check text-secondary text-xl"></i> Real-time health monitoring</li>
-                        <li class="flex items-center gap-3 text-slate-700 font-medium"><i class="fa-regular fa-circle-check text-secondary text-xl"></i> Advanced AI analytics</li>
-                        <li class="flex items-center gap-3 text-slate-700 font-medium"><i class="fa-regular fa-circle-check text-secondary text-xl"></i> Personalized insights</li>
-                        <li class="flex items-center gap-3 text-slate-700 font-medium"><i class="fa-regular fa-circle-check text-secondary text-xl"></i> Actionable recommendations</li>
-                    </ul>
-                    <a href="{{ url_for('views.dashboard') }}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-primary font-semibold rounded-full shadow-card hover:shadow-lg hover:text-blue-700 transition border border-blue-50 no-underline">
-                        Explore Dashboard <i class="fa-solid fa-arrow-right"></i>
+                <div class="flex flex-wrap items-center gap-4">
+                    <a href="{{ url_for('views.symptom_checker') }}"
+                        class="px-8 py-4 bg-primary hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-1 flex items-center gap-2 no-underline text-sm uppercase tracking-wider">
+                        Start Free Assessment <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="{{ url_for('views.medical_report') }}"
+                        class="px-8 py-4 bg-white text-slate-700 font-bold rounded-2xl shadow-sm hover:shadow-md transition-all flex items-center gap-2 border border-slate-200 no-underline text-sm uppercase tracking-wider">
+                        <i class="fa-solid fa-play text-primary"></i> Watch Demo
                     </a>
                 </div>
+            </div>
 
-                <!-- Right Content (Dashboard UI Mockup) -->
-                <div class="col-lg-7 reveal">
-                    <!-- The mockup HTML has been shortened for brevity but represents the same content as the static index -->
-                    <img src="https://placehold.co/800x600/f8fafc/1e293b?text=Dashboard+Mockup" alt="Dashboard Preview" class="w-full h-auto rounded-[2rem] shadow-2xl border border-slate-100">
+            <!-- Right Content (Clean Unified Dashboard Bar) -->
+            <div class="col-lg-6 relative reveal active mt-16 lg:mt-0 flex flex-col items-center">
+                <!-- Glowing Backdrop -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-100/50 to-emerald-50/50 rounded-full blur-3xl -z-10"></div>
+                
+                <div class="w-full max-w-[540px] relative z-10">
+                    <!-- Main Image with sleek frame -->
+                    <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white bg-white transform transition duration-700 hover:scale-[1.02]">
+                        <img src="{{ url_for('static', filename='assets/premium_doctor_team.png') }}" alt="Professional Doctor Team" class="w-full h-auto object-cover relative z-0">
+                    </div>
+
+                    <!-- Unified Dashboard Bar Below Image -->
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/60 p-5 flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 w-full relative z-20 hover:-translate-y-1 transition duration-500">
+                        
+                        <!-- Risk Score -->
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-full bg-emerald-50 flex flex-shrink-0 items-center justify-center text-emerald-500 border border-emerald-100">
+                                <i class="fa-solid fa-shield-heart text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-400 mb-1 leading-none">Risk Score</p>
+                                <div class="flex items-end gap-1">
+                                    <span class="text-2xl font-black text-slate-800 leading-none">98</span>
+                                    <span class="text-[10px] font-bold text-emerald-500 leading-none bg-emerald-50 px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-arrow-up"></i> Safe</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hidden sm:block w-px h-10 bg-slate-100"></div>
+
+                        <!-- Symptom Analysis -->
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-full bg-blue-50 flex flex-shrink-0 items-center justify-center text-primary border border-blue-100">
+                                <i class="fa-solid fa-microchip text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-[9px] uppercase font-bold text-primary mb-1 leading-none tracking-wider">Powered By AI</p>
+                                <h3 class="font-extrabold text-slate-800 text-sm mb-0 leading-none">Symptom<br>Analysis</h3>
+                            </div>
+                        </div>
+
+                        <div class="hidden sm:block w-px h-10 bg-slate-100"></div>
+
+                        <!-- Report Extraction -->
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-full bg-indigo-50 flex flex-shrink-0 items-center justify-center text-indigo-500 border border-indigo-100">
+                                <i class="fa-solid fa-file-medical text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-[9px] uppercase font-bold text-slate-400 mb-1 leading-none tracking-wider">Instant Results</p>
+                                <h3 class="font-extrabold text-slate-800 text-sm mb-0 leading-none">Report<br>Extraction</h3>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Decorative shapes -->
+                <div class="absolute top-10 -right-6 text-emerald-300 text-5xl opacity-50 z-0 animate-pulse">
+                    <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div class="absolute bottom-20 -left-6 text-blue-300 text-4xl opacity-50 z-0 transform rotate-45 animate-float">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Trust Large Section -->
+<section class="py-10 bg-white border-y border-slate-100">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-sm font-semibold text-slate-500 mb-8">Trusted by thousands of users and healthcare professionals
+        </p>
+        <div
+            class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition duration-500">
+            <!-- Using text placeholders since we don't have logo images -->
+            <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-hospital"></i>
+                Apollo Hospitals</div>
+            <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i
+                    class="fa-solid fa-house-medical"></i> Fortis Healthcare</div>
+            <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i
+                    class="fa-solid fa-star-of-life"></i> MAX Healthcare</div>
+            <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i
+                    class="fa-solid fa-briefcase-medical"></i> Manipal Hospitals</div>
+            <div class="text-xl font-bold text-slate-700 flex items-center gap-2"><i
+                    class="fa-solid fa-heart-pulse"></i> Medanta</div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section id="stats-section" class="py-12 bg-white">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="bg-gradient-primary rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden text-white">
+            <!-- BG decorations -->
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20">
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+                <!-- Stat 1 -->
+                <div class="text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-primary bg-white">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="10000"
+                            data-float="false">0</span>+</h2>
+                    <p class="text-sm font-medium text-slate-300 mb-0">Assessments Completed</p>
+                </div>
+                <!-- Stat 2 -->
+                <div class="text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-secondary bg-white">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="98.6"
+                            data-float="true">0</span>%</h2>
+                    <p class="text-sm font-medium text-slate-300 mb-0">AI Accuracy Rate</p>
+                </div>
+                <!-- Stat 3 -->
+                <div class="text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-primary bg-white">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="500"
+                            data-float="false">0</span>+</h2>
+                    <p class="text-sm font-medium text-slate-300 mb-0">Health Conditions Analyzed</p>
+                </div>
+                <!-- Stat 4 -->
+                <div class="text-center">
+                    <div
+                        class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 text-secondary bg-white">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-1"><span class="counter" data-target="4.9"
+                            data-float="true">0</span>/5</h2>
+                    <p class="text-sm font-medium text-slate-300 mb-0">User Satisfaction</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Testimonials Section -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-4 md:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
-                    <i class="fa-solid fa-quote-left mr-2"></i> What Our Users Say
+<!-- Features Section -->
+<section class="py-20 bg-slate-50/50">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <div
+                class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-bolt mr-2"></i> Powerful Features
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Everything You Need for Smarter Health
+                Decisions</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+            <!-- Feature 1 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-user-doctor"></i>
                 </div>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Trusted by Patients and Healthcare Professionals</h2>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">AI Symptom Checker</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Describe your symptoms in natural language and
+                    get AI-powered health insights.</p>
+                <a href="{{ url_for('views.symptom_checker') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <!-- Feature 2 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-virus-covid"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Disease Risk Prediction</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Predict your risk for chronic diseases using
+                    advanced machine learning models.</p>
+                <a href="{{ url_for('views.risk_prediction') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <!-- Feature 3 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-file-medical"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Medical Report Analysis</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Upload medical reports and get instant AI
+                    analysis with key insights extracted.</p>
+                <a href="{{ url_for('views.medical_report') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <!-- Feature 4 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 text-xl mb-6 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Personalized Recommendations</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Receive personalized diet, exercise, and
+                    lifestyle recommendations based on your health.</p>
+                <a href="{{ url_for('views.about') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <!-- Feature 5 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">AI Health Assistant</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Chat with our AI health assistant for follow-up
+                    questions and health guidance.</p>
+                <a href="{{ url_for('views.ai_assistant') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto relative reveal">
-                <!-- Review 1 -->
-                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm relative z-10">
-                    <div class="text-secondary text-2xl mb-6 opacity-30"><i class="fa-solid fa-quote-left"></i></div>
-                    <p class="text-slate-700 italic font-medium leading-relaxed mb-8">"SymptoScan AI helped me understand my symptoms and guided me to take the right steps. The AI analysis is incredibly accurate!"</p>
-                    <div class="flex justify-between items-end">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-blue-200 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden text-primary">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
+            <!-- Feature 7 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Health Analytics Dashboard</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">Track your health trends with beautiful analytics
+                    and interactive charts.</p>
+                <a href="{{ url_for('views.dashboard') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <!-- Feature 8 -->
+            <div
+                class="bg-white p-6 rounded-2xl shadow-card border border-slate-100 hover:border-primary/20 transition-all group">
+                <div
+                    class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 text-xl mb-6 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Assessment History</h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">View your past assessments and track your health
+                    journey over time.</p>
+                <a href="{{ url_for('views.dashboard') }}"
+                    class="text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1 no-underline">Learn
+                    more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-20 bg-white overflow-hidden">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <div
+                class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-list-ol mr-2"></i> Simple Process
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Your Health Journey in 4 Simple Steps
+            </h2>
+        </div>
+
+        <div class="relative max-w-5xl mx-auto reveal">
+            <!-- Desktop Timeline Line -->
+            <div class="hidden md:block timeline-line"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="relative text-center timeline-dot group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
+                        <i class="fa-solid fa-user-pen text-2xl text-primary"></i>
+                        <div
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">
+                            1</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Enter Symptoms</h3>
+                    <p class="text-sm text-slate-600 px-2">Describe your symptoms in simple words</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="relative text-center timeline-dot group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
+                        <i class="fa-solid fa-microchip text-2xl text-primary"></i>
+                        <div
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">
+                            2</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">AI Analysis</h3>
+                    <p class="text-sm text-slate-600 px-2">Our AI analyzes your symptoms and data</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="relative text-center timeline-dot group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white border-4 border-blue-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-primary transition-colors relative z-10">
+                        <i class="fa-solid fa-shield-heart text-2xl text-primary"></i>
+                        <div
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center">
+                            3</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Risk Prediction</h3>
+                    <p class="text-sm text-slate-600 px-2">Get risk prediction for possible conditions</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="relative text-center timeline-dot group">
+                    <div
+                        class="w-20 h-20 mx-auto bg-white border-4 border-green-50 rounded-full flex items-center justify-center shadow-lg mb-6 group-hover:border-secondary transition-colors relative z-10">
+                        <i class="fa-solid fa-star text-2xl text-secondary"></i>
+                        <div
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-secondary text-white text-xs font-bold rounded-full flex items-center justify-center">
+                            4</div>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Recommendations</h3>
+                    <p class="text-sm text-slate-600 px-2">Receive personalized health recommendations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Preview Section -->
+<section class="py-20 bg-slate-50/50">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="row items-center">
+            <!-- Left Content -->
+            <div class="col-lg-5 mb-12 lg:mb-0 reveal">
+                <div
+                    class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
+                    <i class="fa-solid fa-desktop mr-2"></i> Product Preview
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight mb-6">
+                    Advanced Health Insights at Your Fingertips
+                </h2>
+                <p class="text-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
+                    Get comprehensive health insights with our intuitive dashboard, advanced analytics, and personalized
+                    recommendations.
+                </p>
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-3 text-slate-700 font-medium"><i
+                            class="fa-regular fa-circle-check text-secondary text-xl"></i> Real-time health monitoring
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-700 font-medium"><i
+                            class="fa-regular fa-circle-check text-secondary text-xl"></i> Advanced AI analytics</li>
+                    <li class="flex items-center gap-3 text-slate-700 font-medium"><i
+                            class="fa-regular fa-circle-check text-secondary text-xl"></i> Personalized insights</li>
+                    <li class="flex items-center gap-3 text-slate-700 font-medium"><i
+                            class="fa-regular fa-circle-check text-secondary text-xl"></i> Actionable recommendations
+                    </li>
+                </ul>
+                <a href="{{ url_for('views.dashboard') }}"
+                    class="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-primary font-semibold rounded-full shadow-card hover:shadow-lg hover:text-blue-700 transition border border-blue-50 no-underline">
+                    Explore Dashboard <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Right Content (Dashboard UI Mockup) -->
+            <div class="col-lg-7 reveal relative">
+                <!-- Decorative background elements -->
+                <div
+                    class="absolute -top-10 -right-10 w-40 h-40 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 z-0 hidden lg:block">
+                </div>
+                <div
+                    class="absolute -bottom-10 -left-10 w-40 h-40 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 z-0 hidden lg:block">
+                </div>
+
+                <!-- Dashboard Container -->
+                <div
+                    class="relative z-10 bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden flex flex-col h-[520px] transition-transform hover:-translate-y-2 duration-500">
+                    <!-- Dashboard Header -->
+                    <div
+                        class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 backdrop-blur-sm">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-br from-blue-100 to-blue-200 text-primary rounded-full flex items-center justify-center font-bold text-sm shadow-inner border border-white">
+                                JD</div>
                             <div>
-                                <h4 class="font-bold text-slate-900 text-sm mb-0">Anita Sharma</h4>
-                                <p class="text-xs text-slate-500 mb-0">Software Engineer</p>
+                                <h3 class="text-sm font-bold text-slate-800 m-0 leading-tight">John Doe</h3>
+                                <span class="text-[10px] font-medium text-slate-500">Patient ID: #9842</span>
                             </div>
                         </div>
-                        <div class="flex text-amber-400 text-xs gap-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <div class="flex gap-2">
+                            <button
+                                class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-primary hover:border-blue-200 transition-all shadow-sm"><i
+                                    class="fa-solid fa-bell text-[10px]"></i></button>
+                            <button
+                                class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center hover:bg-blue-700 transition-all shadow-sm shadow-blue-500/30"><i
+                                    class="fa-solid fa-gear text-[10px]"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content -->
+                    <div class="p-5 flex-grow flex flex-col gap-5 overflow-y-auto bg-slate-50/30 custom-scrollbar">
+                        <!-- KPI Cards -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div
+                                class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:border-blue-200 transition-all hover:shadow-md cursor-default">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div
+                                        class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-sm group-hover:scale-110 group-hover:bg-emerald-100 transition-all">
+                                        <i class="fa-solid fa-heart-circle-check"></i>
+                                    </div>
+                                    <span
+                                        class="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[9px] font-bold rounded-md flex items-center gap-1">
+                                        <i class="fa-solid fa-arrow-trend-up"></i> 4%
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase font-bold text-slate-400 mb-0 tracking-wider">
+                                        Overall Health</p>
+                                    <h4 class="text-2xl font-extrabold text-slate-800 mb-0">92<span
+                                            class="text-xs text-slate-400 font-medium">/100</span></h4>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between group hover:border-blue-200 transition-all hover:shadow-md cursor-default">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div
+                                        class="w-8 h-8 rounded-xl bg-blue-50 text-primary flex items-center justify-center text-sm group-hover:scale-110 group-hover:bg-blue-100 transition-all">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <span class="px-2 py-0.5 bg-blue-50 text-primary text-[9px] font-bold rounded-md">
+                                        Protected
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase font-bold text-slate-400 mb-0 tracking-wider">Risk
+                                        Level</p>
+                                    <h4 class="text-2xl font-extrabold text-slate-800 mb-0">Low</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions & Chart Area -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 flex-grow">
+                            <div
+                                class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col hover:border-blue-100 transition-all group cursor-default">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-xs font-bold text-slate-800 mb-0 flex items-center gap-1.5"><i
+                                            class="fa-solid fa-chart-simple text-primary"></i> Vitals Trend</h4>
+                                    <span
+                                        class="text-[9px] font-semibold text-slate-500 bg-slate-50 px-2 py-1 rounded border border-slate-100">Last
+                                        7 Days</span>
+                                </div>
+                                <!-- CSS based chart mockup -->
+                                <div class="flex-grow flex items-end justify-between gap-1.5 h-20 mt-auto">
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-200 rounded-t h-[40%] group-hover:bg-primary transition-colors duration-300">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-300 rounded-t h-[60%] group-hover:bg-primary transition-colors duration-300 delay-75">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-200 rounded-t h-[30%] group-hover:bg-primary transition-colors duration-300 delay-100">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-400 rounded-t h-[80%] group-hover:bg-primary transition-colors duration-300 delay-150">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-300 rounded-t h-[50%] group-hover:bg-primary transition-colors duration-300 delay-200">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-emerald-400 rounded-t h-[90%] group-hover:bg-secondary transition-colors duration-300 delay-300">
+                                        </div>
+                                    </div>
+                                    <div class="w-full bg-blue-50 rounded-t relative">
+                                        <div
+                                            class="absolute bottom-0 w-full bg-blue-300 rounded-t h-[70%] group-hover:bg-primary transition-colors duration-300 delay-500">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex justify-between mt-2 text-[9px] text-slate-400 font-semibold uppercase tracking-widest">
+                                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span
+                                        class="text-primary font-bold">S</span>
+                                </div>
+                            </div>
+
+                            <div class="md:col-span-1 flex flex-row md:flex-col gap-3">
+                                <div
+                                    class="bg-gradient-primary rounded-2xl p-3 shadow-md shadow-blue-500/20 text-white flex-grow flex flex-col justify-center items-center text-center group cursor-pointer relative overflow-hidden transition-all hover:shadow-lg hover:shadow-blue-500/30">
+                                    <div
+                                        class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition duration-300">
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-stethoscope text-sm"></i>
+                                    </div>
+                                    <span class="text-[10px] font-bold">New Check</span>
+                                </div>
+                                <div
+                                    class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex-grow flex flex-col justify-center items-center text-center group cursor-pointer hover:border-primary/30 transition-all hover:bg-blue-50/30">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center mb-2 group-hover:bg-blue-100 group-hover:text-primary transition-colors text-slate-400">
+                                        <i class="fa-solid fa-file-medical text-sm"></i>
+                                    </div>
+                                    <span
+                                        class="text-[10px] font-bold text-slate-600 group-hover:text-primary transition-colors">Upload
+                                        Report</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h4 class="text-xs font-bold text-slate-800 mb-0 flex items-center gap-1.5"><i
+                                        class="fa-solid fa-clock-rotate-left text-slate-400"></i> Recent Activity</h4>
+                                <button class="text-[9px] font-bold text-primary hover:underline">View All</button>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between group cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs group-hover:bg-primary group-hover:text-white transition-colors">
+                                            <i class="fa-solid fa-heart-pulse"></i>
+                                        </div>
+                                        <div>
+                                            <p
+                                                class="text-xs font-bold text-slate-800 mb-0 group-hover:text-primary transition-colors">
+                                                Heart Assessment</p>
+                                            <p class="text-[9px] font-medium text-slate-500 mb-0">Today, 10:45 AM</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:text-primary transition-colors transform group-hover:translate-x-1"></i>
+                                </div>
+                                <div class="w-full h-px bg-slate-50"></div>
+                                <div class="flex items-center justify-between group cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-xs group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                                            <i class="fa-solid fa-robot"></i>
+                                        </div>
+                                        <div>
+                                            <p
+                                                class="text-xs font-bold text-slate-800 mb-0 group-hover:text-orange-500 transition-colors">
+                                                AI Symptom Check</p>
+                                            <p class="text-[9px] font-medium text-slate-500 mb-0">Yesterday, 14:20 PM
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:text-orange-500 transition-colors transform group-hover:translate-x-1"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Review 2 -->
-                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm relative z-10">
-                    <div class="text-secondary text-2xl mb-6 opacity-30"><i class="fa-solid fa-quote-left"></i></div>
-                    <p class="text-slate-700 italic font-medium leading-relaxed mb-8">"The health recommendations are practical and easy to follow. My health has improved significantly after using this platform."</p>
-                    <div class="flex justify-between items-end">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-emerald-200 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden text-emerald-600">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm mb-0">Rahul Verma</h4>
-                                <p class="text-xs text-slate-500 mb-0">Marketing Manager</p>
-                            </div>
+                <!-- Floating Notification -->
+                <div
+                    class="absolute -right-8 top-32 bg-white p-3 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 flex items-center gap-3 z-20 animate-float-delayed hidden lg:flex">
+                    <div
+                        class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-800 mb-0">Analysis Complete</p>
+                        <p class="text-[10px] text-slate-500 mb-0 font-medium">Risk profile updated</p>
+                    </div>
+                </div>
+
+                <!-- Floating Stat -->
+                <div
+                    class="absolute -left-6 bottom-24 bg-white px-4 py-3 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 flex flex-col gap-1 z-20 animate-float hidden lg:flex">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Live Status</span>
+                    </div>
+                    <p class="text-sm font-extrabold text-slate-800 mb-0 flex items-center gap-2">Monitoring <i
+                            class="fa-solid fa-wave-square text-primary text-xs"></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <div
+                class="inline-flex items-center px-3 py-1 rounded-full badge-soft-green text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-quote-left mr-2"></i> What Our Users Say
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Trusted by Patients and Healthcare
+                Professionals</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto relative reveal">
+            <!-- Review 1 -->
+            <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm relative z-10">
+                <div class="text-secondary text-2xl mb-6 opacity-30"><i class="fa-solid fa-quote-left"></i></div>
+                <p class="text-slate-700 italic font-medium leading-relaxed mb-8">"SymptoScan AI helped me understand my
+                    symptoms and guided me to take the right steps. The AI analysis is incredibly accurate!"</p>
+                <div class="flex justify-between items-end">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-blue-200 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden text-primary">
+                            <i class="fa-solid fa-user"></i>
                         </div>
-                        <div class="flex text-amber-400 text-xs gap-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm mb-0">Anita Sharma</h4>
+                            <p class="text-xs text-slate-500 mb-0">Software Engineer</p>
                         </div>
+                    </div>
+                    <div class="flex text-amber-400 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
                     </div>
                 </div>
             </div>
-            
-            <div class="mt-16 text-center reveal flex justify-center relative">
-               <div class="bg-white rounded-3xl p-4 shadow-xl border border-slate-100 flex items-center gap-4 z-10 animate-float-delayed transform translate-y-10">
-                   <div class="text-left">
-                       <p class="text-[10px] text-slate-500 font-medium mb-0">Health Score</p>
-                       <p class="text-xl font-bold text-slate-800 mb-0">82<span class="text-[10px] text-slate-400">/100</span></p>
-                   </div>
-                   <div class="w-12 h-12 text-secondary text-3xl"><i class="fa-solid fa-heart-circle-check"></i></div>
-               </div>
+
+            <!-- Review 2 -->
+            <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-sm relative z-10">
+                <div class="text-secondary text-2xl mb-6 opacity-30"><i class="fa-solid fa-quote-left"></i></div>
+                <p class="text-slate-700 italic font-medium leading-relaxed mb-8">"The health recommendations are
+                    practical and easy to follow. My health has improved significantly after using this platform."</p>
+                <div class="flex justify-between items-end">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-emerald-200 border-2 border-white shadow-sm flex items-center justify-center overflow-hidden text-emerald-600">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm mb-0">Rahul Verma</h4>
+                            <p class="text-xs text-slate-500 mb-0">Marketing Manager</p>
+                        </div>
+                    </div>
+                    <div class="flex text-amber-400 text-xs gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+
+        <div class="mt-16 text-center reveal flex justify-center relative">
+            <div
+                class="bg-white rounded-3xl p-4 shadow-xl border border-slate-100 flex items-center gap-4 z-10 animate-float-delayed transform translate-y-10">
+                <div class="text-left">
+                    <p class="text-[10px] text-slate-500 font-medium mb-0">Health Score</p>
+                    <p class="text-xl font-bold text-slate-800 mb-0">82<span
+                            class="text-[10px] text-slate-400">/100</span></p>
+                </div>
+                <div class="w-12 h-12 text-secondary text-3xl"><i class="fa-solid fa-heart-circle-check"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

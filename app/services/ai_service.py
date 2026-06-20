@@ -1,85 +1,187 @@
 import os
+import re
 import json
-from openai import OpenAI
+import pickle
+import numpy as np
+import faiss
+
+# Set environment variables before importing torch/transformers
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["OMP_NUM_THREADS"] = "1"
+
+from sentence_transformers import SentenceTransformer
+import torch
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Load these globally to avoid reloading on every request
+from app.services.sapbert_service import sapbert_service
+try:
+    DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+    FAISS_INDEX_PATH = os.path.join(DATA_DIR, 'faiss.index')
+    METADATA_PATH = os.path.join(DATA_DIR, 'metadata.pkl')
+    
+    if os.path.exists(FAISS_INDEX_PATH) and os.path.exists(METADATA_PATH):
+        faiss_index = faiss.read_index(FAISS_INDEX_PATH)
+        with open(METADATA_PATH, 'rb') as f:
+            metadata = pickle.load(f)
+            
+        # Using standard sentence-transformers model on CPU to prevent Mac MPS segfaults
+        embedder = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
+    else:
+        faiss_index = None
+        metadata = None
+        embedder = None
+except Exception as e:
+    logger.error(f"Error loading RAG models: {e}")
+    faiss_index = None
+    metadata = None
+    embedder = None
+
+from app.services.rule_engine import MedicalRuleEngine
 
 class AIService:
     def __init__(self):
-        # We will initialize the client inside the method to allow app context to load env vars
-        pass
+        self.rule_engine = MedicalRuleEngine()
         
-    def _get_client(self):
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            return None
-        return OpenAI(api_key=api_key)
+    def _normalize_symptoms(self, text):
+        text = text.lower()
+        text = re.sub(r'[^\w\s]', ' ', text)
+        return text.strip()
+
+    def get_rag_matches(self, query, normalized_symptoms_text, user_symptoms_raw, severity, rule_output, top_k=5):
+        logger.info(f"Retrieving RAG matches for query top_k={top_k}")
+        if not faiss_index or not embedder or not metadata:
+            logger.warning("RAG context unavailable: dependencies or models missing.")
+            return []
+            
+        try:
+            query_embedding = embedder.encode([query])
+            distances, indices = faiss_index.search(query_embedding.astype(np.float32), top_k)
+            
+            matches = []
+            for i, idx in enumerate(indices[0]):
+                if idx < len(metadata) and idx >= 0:
+                    item = metadata[idx]
+                    dist = distances[0][i]
+                    # Lower distance = higher confidence in FAISS L2
+                    faiss_sim = max(0.0, 100.0 - (dist * 12.0))
+                    
+                    # SapBERT Similarity with disease name
+                    disease_name = item.get('disease', 'Unknown')
+                    sapbert_sim = sapbert_service.get_similarity_score(user_symptoms_raw, disease_name) * 100
+                    
+                    # Symptom overlap scoring
+                    item_symptoms = [s.lower().replace('_', ' ') for s in item.get('symptoms', [])]
+                    user_symptoms_list = [s.strip() for s in normalized_symptoms_text.split(',')]
+                    overlap = set(item_symptoms).intersection(set(user_symptoms_list))
+                    overlap_score = min(100.0, (len(overlap) / max(1, len(user_symptoms_list))) * 100)
+                    
+                    # Disease severity weighting
+                    severity_weight = min(100.0, severity * 10)
+                    
+                    # Combine multi-factor scoring
+                    final_score = (faiss_sim * 0.4) + (sapbert_sim * 0.3) + (overlap_score * 0.2) + (severity_weight * 0.1)
+                    
+                    # Boost if rule engine flagged an emergency
+                    if rule_output.get('has_emergency'):
+                        final_score += 15
+                    
+                    matches.append({
+                        "name": disease_name,
+                        "confidence_score": min(99, int(final_score)),
+                        "description": item.get('description', ''),
+                        "precautions": item.get('precautions', [])
+                    })
+            
+            logger.info(f"RAG Retrieval successful. Found {len(matches)} matches.")
+            # Sort by confidence
+            matches = sorted(matches, key=lambda x: x['confidence_score'], reverse=True)
+            return matches
+        except Exception as e:
+            logger.exception(f"RAG search error: {e}")
+            return []
 
     def analyze_symptoms(self, data):
         """
         data: dict containing age, gender, symptoms, duration, severity, medical_history
         """
-        client = self._get_client()
-        if not client:
-            # Return dummy data if no API key is present for development/testing purposes
-            return self._get_dummy_response()
+        logger.info("Starting local symptom analysis pipeline with SapBERT")
+        
+        symptoms = data.get('symptoms', '')
+        normalized_symptoms = self._normalize_symptoms(symptoms)
+        
+        # 1. SapBERT Processing
+        canonical_symptoms = sapbert_service.normalize_symptoms(normalized_symptoms)
+        
+        severity = int(data.get('severity', 0)) if str(data.get('severity')).isdigit() else 0
+        
+        logger.info("Evaluating Medical Rule Engine")
+        rule_output = self.rule_engine.evaluate(data)
+        logger.info(f"Rule Engine Output: {rule_output}")
+        
+        user_profile = f"Patient Profile: Age {data.get('age')}, Gender {data.get('gender')}. " \
+                       f"Medical History: {data.get('medical_history', 'None reported')}. " \
+                       f"Symptoms: {canonical_symptoms}. " \
+                       f"Duration: {data.get('duration')}. " \
+                       f"Severity: {severity}/10."
 
-        system_prompt = """
-        You are an advanced AI Medical Assistant. Your task is to analyze the patient's symptoms and provide possible conditions, risk level, explanation, and recommendations.
-        You MUST respond ONLY with a valid JSON object matching this strict schema:
-        {
-          "conditions": [
-            { "name": "Condition Name", "match_percentage": 85 }
-          ],
-          "risk_level": "Low" | "Moderate" | "High",
-          "explanation": "Brief explanation of why these conditions were selected based on the symptoms.",
-          "recommendations": [
-            "Actionable advice 1",
-            "Actionable advice 2"
-          ]
-        }
-        """
+        matches = self.get_rag_matches(user_profile, canonical_symptoms, symptoms, severity, rule_output, top_k=3)
         
-        user_prompt = f"""
-        Patient Profile:
-        - Age: {data.get('age')}
-        - Gender: {data.get('gender')}
-        - Medical History: {data.get('medical_history', 'None reported')}
-        
-        Current Issue:
-        - Symptoms: {data.get('symptoms')}
-        - Duration: {data.get('duration')}
-        - Severity (1-10): {data.get('severity')}
-        """
-        
-        try:
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo", # Defaulting to faster/cheaper model
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                temperature=0.2,
-                response_format={ "type": "json_object" }
-            )
+        conditions = []
+        for m in matches:
+            conditions.append({
+                "name": m['name'].strip(),
+                "confidence_score": m['confidence_score']
+            })
             
-            result_json = response.choices[0].message.content
-            return json.loads(result_json)
+        if not conditions:
+            conditions = [{"name": "Undetermined Condition", "confidence_score": 50}]
             
-        except Exception as e:
-            print(f"OpenAI API Error: {str(e)}")
-            return self._get_dummy_response()
-
-    def _get_dummy_response(self):
-        """Fallback response if API fails or no key is provided."""
-        return {
-            "conditions": [
-                {"name": "Viral Infection", "match_percentage": 75},
-                {"name": "Common Cold", "match_percentage": 60}
-            ],
-            "risk_level": "Low",
-            "explanation": "Based on the reported symptoms, it appears to be a common viral infection. However, without an API key, this is a simulated response.",
-            "recommendations": [
-                "Rest and stay hydrated.",
-                "Monitor your temperature.",
-                "Consult a doctor if symptoms worsen after 3 days."
-            ]
+        risk_level = "Low"
+        highest_conf = conditions[0]['confidence_score'] if conditions else 0
+        
+        if highest_conf > 85 or severity > 6:
+            risk_level = "Moderate"
+            
+        if rule_output.get('risk_override'):
+            risk_level = rule_output['risk_override']
+            
+        cond_names = [c['name'] for c in conditions]
+        explanation = f"Based on semantic similarity of your symptoms with our medical database, possible conditions include {', '.join(cond_names)}."
+        if matches and matches[0]['description']:
+            explanation += f" {matches[0]['name']} is described as: {matches[0]['description']}"
+            
+        if rule_output.get('has_emergency'):
+            explanation += " CRITICAL: Emergency symptoms were detected that require immediate attention."
+            
+        recommendations = []
+        if matches and matches[0].get('precautions'):
+            recommendations.extend([p.strip() for p in matches[0]['precautions'] if p.strip()])
+        else:
+            recommendations.extend(["Rest and monitor symptoms.", "Stay hydrated."])
+            
+        if rule_output.get('recommendations'):
+            recommendations = rule_output['recommendations'] + recommendations
+            
+        red_flag_warnings = rule_output.get('warnings', [])
+        
+        follow_up_questions = [
+            f"Are you experiencing any other symptoms related to {cond_names[0]}?",
+            "Have your symptoms progressively worsened over the last 24 hours?"
+        ]
+        
+        parsed_result = {
+            "conditions": conditions,
+            "risk_level": risk_level,
+            "explanation": explanation,
+            "recommendations": list(dict.fromkeys(recommendations)),
+            "red_flag_warnings": list(set(red_flag_warnings)),
+            "follow_up_questions": follow_up_questions
         }
+        
+        logger.info("Local processing complete. Returning final JSON.")
+        return parsed_result

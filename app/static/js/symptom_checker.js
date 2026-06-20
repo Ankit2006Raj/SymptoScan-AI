@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const steps = document.querySelectorAll('.step-content');
     const stepIndicators = document.querySelectorAll('.step-indicator');
     const progressBar = document.getElementById('progress-bar');
-    
+
     // Buttons
     const btnNext1 = document.getElementById('btn-next-1');
     const btnBack2 = document.getElementById('btn-back-2');
     const btnAnalyze = document.getElementById('btn-analyze');
     const btnRestart = document.getElementById('btn-restart');
-    
+
     // Inputs
     const ageInput = document.getElementById('age');
     const genderInput = document.getElementById('gender');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationInput = document.getElementById('duration');
     const severityInput = document.getElementById('severity');
     const severityValue = document.getElementById('severity-value');
-    
+
     // Advanced Explorer UI Elements
     const tabCategories = document.getElementById('tab-categories');
     const tabBodyMap = document.getElementById('tab-bodymap');
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const conditionsContainer = document.getElementById('conditions-container');
     const explanationText = document.getElementById('explanation-text');
     const recommendationsList = document.getElementById('recommendations-list');
-    
+
     // --- State ---
     let currentStep = 1;
     let formData = {};
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Severity Slider Update ---
     severityInput.addEventListener('input', (e) => {
         severityValue.textContent = e.target.value;
-        
+
         // Change color based on severity
         const val = parseInt(e.target.value);
         if (val <= 3) {
@@ -111,17 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
             step.classList.remove('active');
             step.classList.add('hidden');
         });
-        
+
         // Show target
         const targetStep = document.getElementById(`step-${stepNumber}`);
         targetStep.classList.remove('hidden');
         setTimeout(() => targetStep.classList.add('active'), 50);
-        
+
         // Update Indicators
         stepIndicators.forEach((indicator, index) => {
             const circle = indicator.querySelector('.step-circle');
             const text = indicator.querySelector('.step-text');
-            
+
             if (index + 1 < stepNumber) {
                 circle.className = 'w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center font-bold shadow-md transition-colors duration-300 step-circle';
                 circle.innerHTML = '<i class="fa-solid fa-check"></i>';
@@ -136,16 +136,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 text.className = 'text-xs font-semibold mt-2 text-slate-400 step-text';
             }
         });
-        
+
         const progressPercentages = { 1: '25%', 2: '50%', 3: '75%', 4: '100%' };
         progressBar.style.width = progressPercentages[stepNumber];
         currentStep = stepNumber;
+        
+        // Scroll to top of the page smoothly
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // --- Advanced Explorer Logic ---
     let selectedSymptomsSet = new Set();
     let currentCategory = "General Symptoms";
-    
+
     const symptomDictionary = {
         "Head & Neurological": [
             { name: "Headache", icon: "fa-head-side-virus", desc: "Pain or discomfort in the head, scalp, or neck." },
@@ -230,15 +233,14 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.keys(symptomDictionary).forEach(cat => {
             const isEmergency = cat === 'Emergency Symptoms';
             const isActive = cat === currentCategory;
-            
+
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = `w-full text-left px-4 py-3 rounded-xl transition-all font-semibold text-sm mb-1 ${
-                isActive 
-                ? 'bg-white shadow-sm border border-primary/20 text-primary' 
-                : (isEmergency ? 'text-red-600 hover:bg-red-50' : 'text-slate-600 hover:bg-white hover:shadow-sm')
-            }`;
-            
+            btn.className = `w-full text-left px-4 py-3 rounded-xl transition-all font-semibold text-sm mb-1 ${isActive
+                    ? 'bg-white shadow-sm border border-primary/20 text-primary'
+                    : (isEmergency ? 'text-red-600 hover:bg-red-50' : 'text-slate-600 hover:bg-white hover:shadow-sm')
+                }`;
+
             let icon = 'fa-folder';
             if (cat === 'Head & Neurological') icon = 'fa-brain';
             if (cat === 'Respiratory') icon = 'fa-lungs';
@@ -252,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isEmergency) icon = 'fa-triangle-exclamation';
 
             btn.innerHTML = `<i class="fa-solid ${icon} w-6 text-center ${isEmergency ? 'text-red-500' : (isActive ? 'text-primary' : 'text-slate-400')}"></i> ${cat}`;
-            
+
             btn.addEventListener('click', () => {
                 currentCategory = cat;
                 renderCategoryMenu();
@@ -265,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadCategory = (cat, filter = '') => {
         currentCategoryTitle.innerHTML = `<i class="fa-solid fa-layer-group text-primary"></i> ${cat}`;
         symptomList.innerHTML = '';
-        
+
         let symptoms = symptomDictionary[cat] || [];
         if (filter) {
             symptoms = symptoms.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()) || s.desc.toLowerCase().includes(filter.toLowerCase()));
@@ -279,12 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
         symptoms.forEach(s => {
             const isSelected = selectedSymptomsSet.has(s.name);
             const card = document.createElement('div');
-            card.className = `p-3 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${
-                isSelected 
-                ? 'bg-blue-50/80 border-blue-200 shadow-sm' 
-                : 'bg-white border-slate-100 shadow-sm hover:border-primary/30 hover:shadow-md'
-            }`;
-            
+            card.className = `p-3 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${isSelected
+                    ? 'bg-blue-50/80 border-blue-200 shadow-sm'
+                    : 'bg-white border-slate-100 shadow-sm hover:border-primary/30 hover:shadow-md'
+                }`;
+
             card.innerHTML = `
                 <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-primary text-white' : 'bg-slate-50 text-slate-400'}">
                     <i class="fa-solid ${s.icon}"></i>
@@ -293,13 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h5 class="font-bold text-sm ${isSelected ? 'text-blue-800' : 'text-slate-800'}">${s.name}</h5>
                     <p class="text-xs text-slate-500 line-clamp-1">${s.desc}</p>
                 </div>
-                <div class="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                    isSelected ? 'bg-primary border-primary text-white' : 'border-slate-200 text-transparent'
+                <div class="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary text-white' : 'border-slate-200 text-transparent'
                 }">
                     <i class="fa-solid fa-check text-xs"></i>
                 </div>
             `;
-            
+
             card.addEventListener('click', () => {
                 if (isSelected) {
                     selectedSymptomsSet.delete(s.name);
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSelectedUI();
                 generateSmartSuggestions();
             });
-            
+
             symptomList.appendChild(card);
         });
     };
@@ -318,21 +318,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateSelectedUI = () => {
         selectedCount.textContent = selectedSymptomsSet.size;
         selectedChips.innerHTML = '';
-        
+
         if (selectedSymptomsSet.size > 0) {
             selectedSymptomsContainer.classList.remove('hidden');
             selectedSymptomsSet.forEach(s => {
                 const chip = document.createElement('span');
                 chip.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white text-blue-700 border border-blue-200 shadow-sm';
                 chip.innerHTML = `${s} <button type="button" class="ml-2 text-blue-400 hover:text-red-500 transition focus:outline-none"><i class="fa-solid fa-xmark"></i></button>`;
-                
+
                 chip.querySelector('button').addEventListener('click', () => {
                     selectedSymptomsSet.delete(s);
                     loadCategory(currentCategory, symptomSearch.value);
                     updateSelectedUI();
                     generateSmartSuggestions();
                 });
-                
+
                 selectedChips.appendChild(chip);
             });
         } else {
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateSmartSuggestions = () => {
         suggestionChips.innerHTML = '';
         let suggested = new Set();
-        
+
         selectedSymptomsSet.forEach(s => {
             if (suggestionsRules[s]) {
                 suggestionsRules[s].forEach(rec => {
@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
-        
+
         if (suggested.size > 0) {
             smartSuggestions.classList.remove('hidden');
             suggested.forEach(s => {
@@ -361,14 +361,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 chip.type = 'button';
                 chip.className = 'inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white text-emerald-700 border border-emerald-200 shadow-sm hover:bg-emerald-50 transition';
                 chip.innerHTML = `<i class="fa-solid fa-plus mr-1"></i> ${s}`;
-                
+
                 chip.addEventListener('click', () => {
                     selectedSymptomsSet.add(s);
                     loadCategory(currentCategory, symptomSearch.value);
                     updateSelectedUI();
                     generateSmartSuggestions();
                 });
-                
+
                 suggestionChips.appendChild(chip);
             });
         } else {
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentCategoryTitle.innerHTML = `<i class="fa-solid fa-search text-primary"></i> Search Results`;
             symptomList.innerHTML = '';
             let foundAny = false;
-            
+
             Object.keys(symptomDictionary).forEach(cat => {
                 const matched = symptomDictionary[cat].filter(s => s.name.toLowerCase().includes(val.toLowerCase()) || s.desc.toLowerCase().includes(val.toLowerCase()));
                 if (matched.length > 0) {
@@ -417,13 +417,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     header.className = 'text-xs font-bold text-slate-400 uppercase tracking-wider mt-2 mb-1 px-1';
                     header.textContent = cat;
                     symptomList.appendChild(header);
-                    
+
                     matched.forEach(s => {
                         const isSelected = selectedSymptomsSet.has(s.name);
                         const card = document.createElement('div');
-                        card.className = `p-3 rounded-xl border transition-all cursor-pointer flex items-center gap-3 mb-2 ${
-                            isSelected ? 'bg-blue-50/80 border-blue-200' : 'bg-white border-slate-100 hover:border-primary/30 hover:shadow-md'
-                        }`;
+                        card.className = `p-3 rounded-xl border transition-all cursor-pointer flex items-center gap-3 mb-2 ${isSelected ? 'bg-blue-50/80 border-blue-200' : 'bg-white border-slate-100 hover:border-primary/30 hover:shadow-md'
+                            }`;
                         card.innerHTML = `
                             <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-primary text-white' : 'bg-slate-50 text-slate-400'}">
                                 <i class="fa-solid ${s.icon}"></i>
@@ -432,8 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h5 class="font-bold text-sm ${isSelected ? 'text-blue-800' : 'text-slate-800'}">${s.name}</h5>
                                 <p class="text-xs text-slate-500 line-clamp-1">${s.desc}</p>
                             </div>
-                            <div class="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                                isSelected ? 'bg-primary border-primary text-white' : 'border-slate-200 text-transparent'
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary text-white' : 'border-slate-200 text-transparent'
                             }">
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
@@ -452,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             });
-            
+
             if (!foundAny) {
                 symptomList.innerHTML = '<div class="text-center py-8 text-slate-400 text-sm"><i class="fa-solid fa-search mb-2 text-2xl"></i><br>No symptoms found.</div>';
             }
@@ -477,12 +475,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please fill in your age and gender.');
             return;
         }
-        
+
         // Save data
         formData.age = parseInt(ageInput.value);
         formData.gender = genderInput.value;
         formData.medical_history = medicalHistoryInput.value;
-        
+
         goToStep(2);
     });
 
@@ -502,16 +500,16 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Please select or describe your symptoms and select a duration.');
             return;
         }
-        
+
         // Save data
         formData.symptoms = combinedSymptoms;
         formData.duration = durationInput.value;
         formData.severity = parseInt(severityInput.value);
-        
+
         // Go to Loading Step
         goToStep(3);
         simulateLoadingProgress();
-        
+
         // Make API Call
         try {
             const response = await fetch('/api/analyze-symptoms', {
@@ -521,18 +519,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(formData)
             });
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
-                renderResults(data.results);
+                // Clear any previous errors
+                const existingBanner = document.getElementById('api-error-banner');
+                if (existingBanner) existingBanner.remove();
+
+                renderResults(data.results, data.assessment_id);
                 setTimeout(() => goToStep(4), 500); // Small delay to let loading finish visually
             } else {
-                throw new Error(data.error || 'Failed to analyze symptoms');
+                const errorMessage = data.details ? `${data.error} - ${data.details}` : (data.error || 'Failed to analyze symptoms');
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            alert(`Error: ${error.message}`);
             goToStep(2); // Go back to input on error
+
+            // Create or update graceful error banner
+            let errorBanner = document.getElementById('api-error-banner');
+            if (!errorBanner) {
+                errorBanner = document.createElement('div');
+                errorBanner.id = 'api-error-banner';
+                errorBanner.className = 'bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg shadow-sm transition-all animate-fade-in-up';
+
+                // Try to find the step-2 container
+                const step2Content = document.querySelector('#step-2 > div.bg-white') || document.getElementById('step-2');
+                if (step2Content) {
+                    step2Content.insertBefore(errorBanner, step2Content.firstChild);
+                }
+            }
+
+            errorBanner.innerHTML = `
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-circle-exclamation text-red-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-bold text-red-800">Analysis Failed</h3>
+                        <div class="mt-1 text-sm text-red-700">
+                            <p>${error.message}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
 
@@ -542,13 +574,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('form-step-2').reset();
         severityValue.textContent = '5';
         severityValue.className = 'text-primary font-bold';
-        
+
         // Reset advanced UI
         selectedSymptomsSet.clear();
         currentCategory = "General Symptoms";
         symptomSearch.value = "";
         initExplorer();
-        
+
         formData = {};
         goToStep(1);
     });
@@ -558,73 +590,118 @@ document.addEventListener('DOMContentLoaded', () => {
         const bar = document.getElementById('ai-progress-bar');
         const text = document.getElementById('loading-text');
         const pctText = document.getElementById('ai-progress-percentage');
-        
+
         const messages = [
             "Initializing diagnostic algorithms...",
             "Cross-referencing medical database...",
             "Calculating probability scores...",
             "Generating personalized action plan..."
         ];
-        
+
         let progress = 0;
         let messageIndex = 0;
-        
+
         bar.style.width = '0%';
-        if(pctText) pctText.textContent = '0%';
-        
+        if (pctText) pctText.textContent = '0%';
+
         const interval = setInterval(() => {
             progress += Math.random() * 12;
             if (progress >= 95) {
                 clearInterval(interval);
                 progress = 95; // Hold at 95% until API returns
             }
-            
+
             bar.style.width = `${progress}%`;
-            if(pctText) pctText.textContent = `${Math.round(progress)}%`;
-            
+            if (pctText) pctText.textContent = `${Math.round(progress)}%`;
+
             if (progress > 25 && messageIndex === 0) { messageIndex++; text.textContent = messages[messageIndex]; }
             if (progress > 50 && messageIndex === 1) { messageIndex++; text.textContent = messages[messageIndex]; }
             if (progress > 75 && messageIndex === 2) { messageIndex++; text.textContent = messages[messageIndex]; }
-            
+
         }, 300);
     };
 
-    const renderResults = (results) => {
-        // 1. Render Risk Badge
+    const renderResults = (results, assessment_id) => {
+        // --- 1. Populate Symptom Summary ---
+        document.getElementById('summary-symptoms').textContent = formData.symptoms || 'None selected';
+        document.getElementById('summary-duration').textContent = formData.duration || 'N/A';
+        document.getElementById('summary-severity').textContent = formData.severity || '5';
+        document.getElementById('summary-history').textContent = formData.medical_history || 'None reported';
+
+        // --- 2. Calculate Risk Score and Render Badge ---
         const riskBadge = document.getElementById('risk-badge');
         const emergencyBanner = document.getElementById('emergency-banner');
         const risk = results.risk_level.toLowerCase();
         
-        if (risk === 'low') {
-            riskBadge.className = 'inline-flex items-center px-6 py-2 rounded-full text-sm font-bold mb-6 uppercase tracking-widest bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-sm';
-            riskBadge.innerHTML = '<i class="fa-solid fa-shield-check mr-2"></i> Low Risk';
-            if (emergencyBanner) emergencyBanner.classList.add('hidden');
-        } else if (risk === 'high' || risk === 'severe') {
-            riskBadge.className = 'inline-flex items-center px-6 py-2 rounded-full text-sm font-bold mb-6 uppercase tracking-widest bg-red-100 text-red-800 border border-red-200 shadow-sm animate-pulse';
-            riskBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2"></i> High Risk';
-            if (emergencyBanner) emergencyBanner.classList.remove('hidden');
-        } else {
-            riskBadge.className = 'inline-flex items-center px-6 py-2 rounded-full text-sm font-bold mb-6 uppercase tracking-widest bg-amber-100 text-amber-800 border border-amber-200 shadow-sm';
-            riskBadge.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-2"></i> Moderate Risk';
-            if (emergencyBanner) emergencyBanner.classList.add('hidden');
+        let baseScore = 0;
+        let maxConf = 0;
+        if (results.conditions && results.conditions.length > 0) {
+            maxConf = results.conditions[0].confidence_score || results.conditions[0].match_percentage || 0;
         }
 
-        // 2. Render Conditions
+        if (risk === 'low') {
+            riskBadge.className = 'inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold mb-4 uppercase tracking-widest bg-emerald-500/20 text-emerald-100 border border-emerald-400/30 backdrop-blur-md shadow-sm';
+            riskBadge.innerHTML = '<i class="fa-solid fa-shield-check mr-2"></i> Low Risk';
+            if (emergencyBanner) emergencyBanner.classList.add('hidden');
+            baseScore = 20 + (maxConf * 0.2); // Maps to 20-40
+        } else if (risk === 'high' || risk === 'severe') {
+            riskBadge.className = 'inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold mb-4 uppercase tracking-widest bg-red-500/80 text-white border border-red-400/50 backdrop-blur-md shadow-sm animate-pulse';
+            riskBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2"></i> High Risk';
+            if (emergencyBanner) emergencyBanner.classList.remove('hidden');
+            baseScore = 80 + (maxConf * 0.2); // Maps to 80-100
+        } else {
+            riskBadge.className = 'inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold mb-4 uppercase tracking-widest bg-amber-500/30 text-amber-100 border border-amber-400/40 backdrop-blur-md shadow-sm';
+            riskBadge.innerHTML = '<i class="fa-solid fa-circle-exclamation mr-2"></i> Moderate Risk';
+            if (emergencyBanner) emergencyBanner.classList.add('hidden');
+            baseScore = 40 + (maxConf * 0.4); // Maps to 40-80
+        }
+
+        const finalScore = Math.min(100, Math.round(baseScore));
+        
+        // Animate Score Counter
+        const scoreElem = document.getElementById('risk-score-value');
+        let currentCount = 0;
+        const duration = 1500;
+        const stepTime = Math.abs(Math.floor(duration / finalScore)) || 10;
+        const timer = setInterval(() => {
+            currentCount += 1;
+            scoreElem.textContent = currentCount;
+            if (currentCount >= finalScore) {
+                scoreElem.textContent = finalScore;
+                clearInterval(timer);
+            }
+        }, stepTime);
+
+        // Animate SVG Circle
+        const circle = document.getElementById('risk-meter-circle');
+        const circumference = 351.8; // 2 * pi * 56
+        const offset = circumference - (finalScore / 100) * circumference;
+        
+        // Color transition based on score
+        if (finalScore >= 80) circle.className = 'text-red-500 transition-all duration-1000 ease-out';
+        else if (finalScore >= 40) circle.className = 'text-amber-400 transition-all duration-1000 ease-out';
+        else circle.className = 'text-emerald-400 transition-all duration-1000 ease-out';
+        
+        setTimeout(() => {
+            circle.style.strokeDashoffset = offset;
+        }, 100);
+
+        // --- 3. Render Conditions ---
         const conditionsContainer = document.getElementById('conditions-container');
         conditionsContainer.innerHTML = '';
         results.conditions.forEach(cond => {
-            const width = cond.match_percentage || 0;
+            const width = cond.confidence_score || cond.match_percentage || 0;
             const barColor = width > 75 ? 'from-red-500 to-rose-400' : (width > 50 ? 'from-amber-500 to-orange-400' : 'from-blue-500 to-cyan-400');
             const bgHover = width > 75 ? 'hover:border-red-300' : 'hover:border-blue-300';
-            
+
             const html = `
-                <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm transition-all ${bgHover} group">
+                <div class="bg-white rounded-xl p-4 border border-slate-100 shadow-sm transition-all ${bgHover} group">
                     <div class="flex justify-between items-center mb-3">
-                        <h5 class="font-bold text-slate-800 text-base group-hover:text-primary transition-colors">${cond.name}</h5>
-                        <span class="text-sm font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">${width}% Match</span>
+                        <h5 class="font-bold text-slate-800 text-sm group-hover:text-primary transition-colors">${cond.name}</h5>
+                        <span class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">${width}% Match</span>
                     </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden shadow-inner">
-                        <div class="h-2.5 rounded-full bg-gradient-to-r ${barColor} relative" style="width: ${width}%">
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
+                        <div class="h-2 rounded-full bg-gradient-to-r ${barColor} relative" style="width: ${width}%">
                             <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
                         </div>
                     </div>
@@ -633,26 +710,95 @@ document.addEventListener('DOMContentLoaded', () => {
             conditionsContainer.insertAdjacentHTML('beforeend', html);
         });
 
-        // 3. Render Explanation
+        // --- 4. Render Explanation ---
         const explanationText = document.getElementById('explanation-text');
         explanationText.textContent = results.explanation;
 
-        // 4. Render Recommendations (Action Plan Checklist)
-        const recommendationsList = document.getElementById('recommendations-list');
-        recommendationsList.innerHTML = '';
-        results.recommendations.forEach((rec, idx) => {
+        // --- 5. Categorize & Render Recommendations ---
+        const consultDoctorList = document.getElementById('consult-doctor-list');
+        const homeCareList = document.getElementById('home-care-list');
+        consultDoctorList.innerHTML = '';
+        homeCareList.innerHTML = '';
+
+        const consultKeywords = ['doctor', 'physician', 'hospital', 'emergency', 'medical attention', 'consult', 'evaluation', 'test', 'scan'];
+        
+        let hasConsult = false;
+        let hasHomeCare = false;
+
+        results.recommendations.forEach(rec => {
+            const lowerRec = rec.toLowerCase();
+            const isConsult = consultKeywords.some(kw => lowerRec.includes(kw));
+
             const html = `
-                <label class="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-colors cursor-pointer group">
-                    <div class="relative flex items-center justify-center mt-0.5">
-                        <input type="checkbox" class="peer sr-only">
-                        <div class="w-5 h-5 rounded border-2 border-slate-300 peer-checked:bg-secondary peer-checked:border-secondary transition-all flex items-center justify-center">
-                            <i class="fa-solid fa-check text-white text-xs opacity-0 peer-checked:opacity-100 transition-opacity"></i>
-                        </div>
-                    </div>
-                    <span class="text-sm text-slate-700 font-medium group-hover:text-slate-900 transition-colors">${rec}</span>
-                </label>
+                <li class="flex items-start gap-3">
+                    <i class="fa-solid fa-circle-check mt-1 ${isConsult ? 'text-amber-500' : 'text-emerald-500'} text-xs"></i>
+                    <span class="leading-snug">${rec}</span>
+                </li>
             `;
-            recommendationsList.insertAdjacentHTML('beforeend', html);
+
+            if (isConsult) {
+                consultDoctorList.insertAdjacentHTML('beforeend', html);
+                hasConsult = true;
+            } else {
+                homeCareList.insertAdjacentHTML('beforeend', html);
+                hasHomeCare = true;
+            }
         });
+
+        if (!hasConsult) consultDoctorList.innerHTML = '<li class="text-slate-400 italic text-xs">No specific urgent medical consultations recommended.</li>';
+        if (!hasHomeCare) homeCareList.innerHTML = '<li class="text-slate-400 italic text-xs">No specific home care or lifestyle changes specified.</li>';
+
+        // --- 6. Render Red Flag Warnings ---
+        const redFlagsContainer = document.getElementById('red-flags-container');
+        const redFlagsList = document.getElementById('red-flags-list');
+        redFlagsList.innerHTML = '';
+        if (results.red_flag_warnings && results.red_flag_warnings.length > 0) {
+            redFlagsContainer.classList.remove('hidden');
+            results.red_flag_warnings.forEach(flag => {
+                redFlagsList.insertAdjacentHTML('beforeend', `<li>${flag}</li>`);
+            });
+        } else {
+            redFlagsContainer.classList.add('hidden');
+        }
+
+        // --- 7. Render Follow-Up Questions ---
+        const followUpList = document.getElementById('follow-up-list');
+        followUpList.innerHTML = '';
+        if (results.follow_up_questions && results.follow_up_questions.length > 0) {
+            results.follow_up_questions.forEach(q => {
+                followUpList.insertAdjacentHTML('beforeend', `<li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right text-primary mt-1 text-xs"></i> <span>${q}</span></li>`);
+            });
+        } else {
+            followUpList.innerHTML = '<li class="text-slate-400 italic text-xs">No specific follow-up questions at this time.</li>';
+        }
+
+        // Setup Download and View Events
+        const btnDownload = document.getElementById('btn-download');
+        if (btnDownload) {
+            const newBtn = btnDownload.cloneNode(true);
+            btnDownload.parentNode.replaceChild(newBtn, btnDownload);
+
+            newBtn.addEventListener('click', () => {
+                if (assessment_id) {
+                    window.location.href = `/api/export-report/assessment/${assessment_id}`;
+                } else {
+                    alert("Assessment ID not found. Cannot download report.");
+                }
+            });
+        }
+        
+        const btnView = document.getElementById('btn-view');
+        if (btnView) {
+            const newBtnView = btnView.cloneNode(true);
+            btnView.parentNode.replaceChild(newBtnView, btnView);
+
+            newBtnView.addEventListener('click', () => {
+                if (assessment_id) {
+                    window.open(`/api/export-report/assessment/${assessment_id}?view=1`, '_blank');
+                } else {
+                    alert("Assessment ID not found. Cannot view report.");
+                }
+            });
+        }
     };
 });
