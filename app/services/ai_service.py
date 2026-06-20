@@ -3,16 +3,17 @@ import re
 import json
 import pickle
 import numpy as np
-import faiss
+try:
+    import faiss
+    from sentence_transformers import SentenceTransformer
+    import torch
+    ML_LIBS_AVAILABLE = True
+except ImportError:
+    faiss = None
+    SentenceTransformer = None
+    torch = None
+    ML_LIBS_AVAILABLE = False
 
-# Set environment variables before importing torch/transformers
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-os.environ["OMP_NUM_THREADS"] = "1"
-
-from sentence_transformers import SentenceTransformer
-import torch
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,7 +25,7 @@ try:
     FAISS_INDEX_PATH = os.path.join(DATA_DIR, 'faiss.index')
     METADATA_PATH = os.path.join(DATA_DIR, 'metadata.pkl')
     
-    if os.path.exists(FAISS_INDEX_PATH) and os.path.exists(METADATA_PATH):
+    if ML_LIBS_AVAILABLE and os.path.exists(FAISS_INDEX_PATH) and os.path.exists(METADATA_PATH):
         faiss_index = faiss.read_index(FAISS_INDEX_PATH)
         with open(METADATA_PATH, 'rb') as f:
             metadata = pickle.load(f)

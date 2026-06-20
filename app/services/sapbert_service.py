@@ -1,8 +1,16 @@
 import os
 import json
 import logging
-import torch
-from transformers import AutoTokenizer, AutoModel
+
+try:
+    import torch
+    from transformers import AutoTokenizer, AutoModel
+    ML_LIBS_AVAILABLE = True
+except ImportError:
+    torch = None
+    AutoTokenizer = None
+    AutoModel = None
+    ML_LIBS_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +27,9 @@ class SapBERTService:
 
     def _load_model(self):
         try:
+            if not ML_LIBS_AVAILABLE:
+                logger.warning("ML libraries not available, skipping SapBERT model load.")
+                return
             logger.info("Loading SapBERT model for medical terminology...")
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             self.model = AutoModel.from_pretrained(self.model_name).to('cpu')
