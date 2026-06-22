@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block title %}Disease Risk Prediction - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen pt-24 pb-12 relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-40"></div>
+
+    <div class="container mx-auto px-4 relative z-10 max-w-7xl">
+        
+        <div class="mb-10 text-center md:text-left">
+            <div class="inline-flex items-center px-3 py-1 rounded-full badge-soft-blue text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-microscope mr-2"></i> Clinical Assessments
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Health Screening Hub</h1>
+            <p class="text-slate-600 max-w-2xl text-lg">Select a health category below to explore specific disease modules. Our AI models will analyze your biometrics and lifestyle factors to estimate your risk.</p>
+        </div>
+
+        <!-- Comprehensive Assessment Premium Banner -->
+        <div class="mb-10">
+            <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-3xl p-8 relative overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 group cursor-pointer hover:shadow-purple-900/30 transition-all duration-300" onclick="window.location.href='{{ url_for('views.predict_comprehensive') }}'">
+                <!-- Background decoration -->
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                
+                <div class="relative z-10 flex-1">
+                    <div class="inline-flex items-center gap-2 bg-white/10 text-purple-200 px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-widest border border-white/10">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Premium Feature
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white mb-3">Comprehensive Health Assessment</h2>
+                    <p class="text-purple-200 max-w-xl text-sm leading-relaxed">Save time by entering your data once. Our unified AI engine will simultaneously run your inputs against 4 specialized clinical models (Diabetes, Heart, Kidney, Liver) to generate a consolidated health report.</p>
+                </div>
+                
+                <div class="relative z-10 shrink-0">
+                    <a href="{{ url_for('views.predict_comprehensive') }}" class="inline-flex items-center gap-2 bg-white text-indigo-900 hover:bg-purple-50 px-8 py-4 rounded-xl font-bold shadow-xl transition-all hover:scale-105">
+                        Start Full Analysis <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Sidebar Navigation -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-3xl p-4 border border-slate-200 shadow-sm sticky top-28">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 px-4">Categories</h3>
+                    <div class="space-y-2">
+                        <!-- Metabolic -->
+                        <button class="category-btn active w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left transition-all bg-blue-50 text-primary font-bold" data-category="metabolic">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white shadow-sm text-primary">
+                                <i class="fa-solid fa-dna text-lg"></i>
+                            </div>
+                            <span>Metabolic Health</span>
+                        </button>
+                        <!-- Cardiovascular -->
+                        <button class="category-btn w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold" data-category="cardiovascular">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-slate-500">
+                                <i class="fa-solid fa-heart-pulse text-lg"></i>
+                            </div>
+                            <span>Cardiovascular</span>
+                        </button>
+                        <!-- Kidney -->
+                        <button class="category-btn w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold" data-category="kidney">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-slate-500">
+                                <i class="fa-solid fa-kidneys text-lg"></i>
+                            </div>
+                            <span>Kidney Health</span>
+                        </button>
+                        <!-- Liver -->
+                        <button class="category-btn w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold" data-category="liver">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-slate-500">
+                                <i class="fa-solid fa-flask text-lg"></i>
+                            </div>
+                            <span>Liver Health</span>
+                        </button>
+                        <!-- Respiratory -->
+                        <button class="category-btn w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold" data-category="respiratory">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-slate-500">
+                                <i class="fa-solid fa-lungs text-lg"></i>
+                            </div>
+                            <span>Respiratory</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="lg:w-3/4 min-h-[600px]">
+                
+                <!-- Metabolic Category -->
+                <div id="cat-metabolic" class="category-panel block">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fa-solid fa-dna text-2xl text-blue-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Metabolic Health Modules</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Diabetes Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                            <!-- Background glow -->
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:bg-blue-200 transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-blue-500/30">
+                                    <i class="fa-solid fa-droplet"></i>
+                                </div>
+                                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-blue-100">
+                                    <i class="fa-regular fa-clock"></i> 2 Min
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Diabetes Risk Assessment</h3>
+                            <p class="text-slate-500 text-sm mb-6 relative z-10 h-10">Evaluate your risk of developing Type 2 Diabetes using biometric inputs and machine learning.</p>
+                            
+                            <div class="bg-slate-50 rounded-2xl p-4 mb-6 relative z-10 border border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Factors Analyzed</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm"><i class="fa-solid fa-weight-scale mr-1 text-slate-400"></i> BMI</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm"><i class="fa-solid fa-cubes-stacked mr-1 text-slate-400"></i> Fasting Glucose</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm"><i class="fa-solid fa-heart-pulse mr-1 text-slate-400"></i> Blood Pressure</span>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('views.predict_diabetes') }}" class="block w-full py-3 bg-slate-900 hover:bg-primary text-white text-center font-bold rounded-xl transition-all shadow-md relative z-10 no-underline">
+                                Begin Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cardiovascular Category -->
+                <div id="cat-cardiovascular" class="category-panel hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fa-solid fa-heart-pulse text-2xl text-red-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Cardiovascular Health Modules</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Heart Disease Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-red-100 rounded-full blur-3xl opacity-50 group-hover:bg-red-200 transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-rose-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-red-500/30">
+                                    <i class="fa-solid fa-heart-circle-bolt"></i>
+                                </div>
+                                <span class="bg-red-50 text-red-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-red-100">
+                                    <i class="fa-regular fa-clock"></i> 3 Min
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Heart Disease Risk</h3>
+                            <p class="text-slate-500 text-sm mb-6 relative z-10 h-10">Predict your 10-year cardiovascular risk using advanced clinical indicators.</p>
+                            
+                            <div class="bg-slate-50 rounded-2xl p-4 mb-6 relative z-10 border border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Factors Analyzed</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Cholesterol</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Blood Pressure</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Heart Rate</span>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('views.predict_heart') }}" class="block w-full py-3 bg-slate-900 hover:bg-red-600 text-white text-center font-bold rounded-xl transition-all shadow-md relative z-10 no-underline">
+                                Begin Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kidney Category -->
+                <div id="cat-kidney" class="category-panel hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fa-solid fa-kidneys text-2xl text-amber-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Kidney Health Modules</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Kidney Disease Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-100 rounded-full blur-3xl opacity-50 group-hover:bg-amber-200 transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-amber-500/30">
+                                    <i class="fa-solid fa-kidneys"></i>
+                                </div>
+                                <span class="bg-amber-50 text-amber-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-amber-100">
+                                    <i class="fa-regular fa-clock"></i> 3 Min
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Chronic Kidney Disease</h3>
+                            <p class="text-slate-500 text-sm mb-6 relative z-10 h-10">Assess CKD progression risk using renal health indicators and medical history.</p>
+                            
+                            <div class="bg-slate-50 rounded-2xl p-4 mb-6 relative z-10 border border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Factors Analyzed</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Serum Creatinine</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Blood Urea</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Hemoglobin</span>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('views.predict_kidney') }}" class="block w-full py-3 bg-slate-900 hover:bg-amber-600 text-white text-center font-bold rounded-xl transition-all shadow-md relative z-10 no-underline">
+                                Begin Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liver Category -->
+                <div id="cat-liver" class="category-panel hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fa-solid fa-flask text-2xl text-emerald-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Liver Health Modules</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Liver Disease Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-100 rounded-full blur-3xl opacity-50 group-hover:bg-emerald-200 transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-emerald-500/30">
+                                    <i class="fa-solid fa-vial-circle-check"></i>
+                                </div>
+                                <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-emerald-100">
+                                    <i class="fa-regular fa-clock"></i> 2 Min
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Hepatic Disease Risk</h3>
+                            <p class="text-slate-500 text-sm mb-6 relative z-10 h-10">Analyze liver enzyme levels and proteins to predict liver disease probability.</p>
+                            
+                            <div class="bg-slate-50 rounded-2xl p-4 mb-6 relative z-10 border border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Factors Analyzed</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Total Bilirubin</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Alkphos</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Albumin</span>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('views.predict_liver') }}" class="block w-full py-3 bg-slate-900 hover:bg-emerald-600 text-white text-center font-bold rounded-xl transition-all shadow-md relative z-10 no-underline">
+                                Begin Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Respiratory Category -->
+                <div id="cat-respiratory" class="category-panel hidden">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fa-solid fa-lungs text-2xl text-sky-500"></i>
+                        <h2 class="text-2xl font-bold text-slate-800">Respiratory Health Modules</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Respiratory Disease Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                            <div class="absolute -right-10 -top-10 w-40 h-40 bg-sky-100 rounded-full blur-3xl opacity-50 group-hover:bg-sky-200 transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-400 text-white flex items-center justify-center text-3xl shadow-lg shadow-sky-500/30">
+                                    <i class="fa-solid fa-lungs"></i>
+                                </div>
+                                <span class="bg-sky-50 text-sky-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 border border-sky-100">
+                                    <i class="fa-regular fa-clock"></i> 3 Min
+                                </span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 relative z-10">Pulmonary Risk Assessment</h3>
+                            <p class="text-slate-500 text-sm mb-6 relative z-10 h-10">Evaluate respiratory health and risk factors for diseases like COPD and Asthma.</p>
+                            
+                            <div class="bg-slate-50 rounded-2xl p-4 mb-6 relative z-10 border border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Key Factors Analyzed</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Oxygen Saturation</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Symptoms</span>
+                                    <span class="text-xs font-medium bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded-md shadow-sm">Environment</span>
+                                </div>
+                            </div>
+                            
+                            <a href="{{ url_for('views.predict_respiratory') }}" class="block w-full py-3 bg-slate-900 hover:bg-sky-600 text-white text-center font-bold rounded-xl transition-all shadow-md relative z-10 no-underline">
+                                Begin Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.category-btn');
+        const panels = document.querySelectorAll('.category-panel');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset all buttons
+                buttons.forEach(b => {
+                    b.classList.remove('active', 'bg-blue-50', 'text-primary');
+                    b.classList.add('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
+                    // Reset icon color
+                    const iconContainer = b.querySelector('div');
+                    iconContainer.classList.remove('bg-white', 'shadow-sm', 'text-primary');
+                    iconContainer.classList.add('bg-slate-100', 'text-slate-500');
+                });
+
+                // Set active button
+                btn.classList.add('active', 'bg-blue-50', 'text-primary');
+                btn.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
+                const activeIcon = btn.querySelector('div');
+                activeIcon.classList.remove('bg-slate-100', 'text-slate-500');
+                activeIcon.classList.add('bg-white', 'shadow-sm', 'text-primary');
+
+                // Hide all panels
+                panels.forEach(p => p.classList.add('hidden'));
+
+                // Show target panel
+                const targetId = `cat-${btn.dataset.category}`;
+                const panel = document.getElementById(targetId);
+                panel.classList.remove('hidden');
+                
+                // Animation effect
+                panel.style.opacity = 0;
+                panel.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    panel.style.transition = 'all 0.3s ease';
+                    panel.style.opacity = 1;
+                    panel.style.transform = 'translateY(0)';
+                }, 10);
+            });
+        });
+    });
+</script>
+{% endblock %}

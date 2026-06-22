@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+{% block title %}Diabetes Risk Assessment - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen pt-24 pb-12 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-10">
+            <a href="{{ url_for('views.risk_prediction') }}" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500 hover:text-blue-600 hover:border-blue-600 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"><i class="fa-solid fa-vial mr-1"></i> Metabolic Module</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Diabetes Risk Assessment</h1>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left: Wizard Form -->
+            <div class="lg:col-span-3" id="wizard-container">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    
+                    <!-- Progress Tracker -->
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">
+                            <span id="step-label">Step 1 of 3: Profile & Lifestyle</span>
+                            <span id="step-percentage">33%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
+                            <div id="wizard-progress" class="bg-gradient-to-r from-blue-400 to-cyan-500 h-2 rounded-full transition-all duration-500" style="width: 33%"></div>
+                        </div>
+                    </div>
+
+                    <form id="prediction-form" data-disease="diabetes">
+                        
+                        <!-- Step 1: Profile & Lifestyle -->
+                        <div id="step-1" class="wizard-step block">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-user-clock"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Profile & Lifestyle</h3>
+                                <p class="text-slate-500 text-sm">Provide demographic and lifestyle factors.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Your Age</label>
+                                    <div class="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-blue-600 hover:bg-slate-100 transition flex items-center justify-center border-r border-slate-200" onclick="document.getElementById('age').stepDown()"><i class="fa-solid fa-minus"></i></button>
+                                        <input type="number" id="age" required min="1" max="120" value="35" class="w-full h-12 text-center text-xl font-bold text-slate-800 focus:outline-none appearance-none bg-transparent">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-blue-600 hover:bg-slate-100 transition flex items-center justify-center border-l border-slate-200" onclick="document.getElementById('age').stepUp()"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Gender</label>
+                                    <select id="gender" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                    <label class="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                                        <span>Height</span>
+                                        <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded text-slate-500">cm</span>
+                                    </label>
+                                    <input type="number" id="height_cm" required min="50" max="300" placeholder="e.g. 175" class="w-full px-3 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800" oninput="calcBMI()">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                    <label class="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                                        <span>Weight</span>
+                                        <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded text-slate-500">kg</span>
+                                    </label>
+                                    <input type="number" id="weight_kg" required min="20" max="300" placeholder="e.g. 70" class="w-full px-3 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800" oninput="calcBMI()">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 md:col-span-2 flex items-center justify-between">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700">Calculated BMI</label>
+                                        <p class="text-xs text-slate-500">Auto-calculated from height and weight</p>
+                                    </div>
+                                    <input type="number" id="bmi" readonly required class="w-24 text-right px-3 py-2.5 rounded-lg border border-slate-200 bg-slate-100 font-extrabold text-blue-600 text-lg">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Physical Activity</label>
+                                    <select id="physical_activity" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="low">Low (Sedentary)</option>
+                                        <option value="moderate" selected>Moderate (Occasional exercise)</option>
+                                        <option value="high">High (Active lifestyle)</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Dietary Habits</label>
+                                    <select id="diet_habits" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="poor">Poor (High sugar/fast food)</option>
+                                        <option value="average" selected>Average</option>
+                                        <option value="healthy">Healthy (Balanced, low sugar)</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 md:col-span-2">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Family History of Diabetes?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="family_history" id="family_history" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="family_history" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex justify-end">
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(1)">
+                                    Continue to Symptoms <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Symptoms -->
+                        <div id="step-2" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-head-side-cough"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Symptoms</h3>
+                                <p class="text-slate-500 text-sm">Select any classic symptoms you are experiencing.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Frequent Thirst?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="frequent_thirst" id="frequent_thirst" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="frequent_thirst" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Frequent Urination?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="frequent_urination" id="frequent_urination" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="frequent_urination" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Chronic Fatigue?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="fatigue" id="fatigue" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="fatigue" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(2)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(2)">
+                                    Continue to Lab Results <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Biometrics & Labs -->
+                        <div id="step-3" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-flask-vial"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Biometrics & Labs</h3>
+                                <p class="text-slate-500 text-sm">Provide your latest glucose and blood pressure data.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>Fasting Glucose</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">mg/dL</span>
+                                    </label>
+                                    <input type="number" id="glucose" required min="50" max="400" placeholder="e.g. 95" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>HbA1c</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">%</span>
+                                    </label>
+                                    <input type="number" step="0.1" id="hba1c" required min="3" max="20" placeholder="e.g. 5.5" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100 md:col-span-2 max-w-md">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>Blood Pressure (Diastolic)</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">mmHg</span>
+                                    </label>
+                                    <input type="number" id="blood_pressure" required min="40" max="150" placeholder="e.g. 80" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                    <p class="text-[11px] text-slate-400 mt-2"><i class="fa-solid fa-info-circle"></i> Diastolic is the bottom number.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(3)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="submit" class="px-10 py-3.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition flex items-center gap-2" id="submit-btn">
+                                    Calculate Diabetes Risk <i class="fa-solid fa-microchip"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Context Pane -->
+            <div class="hidden lg:block lg:col-span-1" id="info-sidebar">
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm sticky top-28">
+                    <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 mb-4">
+                        <i class="fa-solid fa-vial text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">Why we ask this</h4>
+                    <p class="text-sm text-slate-500 mb-4 leading-relaxed">Metabolic syndrome is a cluster of conditions that occur together.</p>
+                    <ul class="space-y-3 text-xs text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-blue-500 mt-0.5"></i> <strong>HbA1c</strong> measures your average blood sugar over the past 3 months.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-blue-500 mt-0.5"></i> <strong>BMI</strong> is a strong predictor of Type 2 Diabetes onset.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-blue-500 mt-0.5"></i> <strong>Thirst & Urination</strong> are classic symptoms of hyperglycemia.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results Dashboard -->
+            <div class="lg:col-span-4 hidden" id="results-dashboard">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Metabolic Health Analysis</h3>
+                            <p class="text-slate-500 text-sm">AI-generated risk prediction based on your profile.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                        <div class="md:col-span-4 flex flex-col items-center justify-center p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                            <div class="relative w-48 h-48">
+                                <canvas id="gaugeChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-8">
+                                    <span class="text-5xl font-extrabold text-slate-800" id="risk-score-value">0%</span>
+                                </div>
+                            </div>
+                            <span class="mt-4 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full" id="risk-category-badge">CALCULATING</span>
+                        </div>
+                        
+                        <div class="md:col-span-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                                <div class="bg-blue-50/50 rounded-2xl p-6 border border-blue-100/50">
+                                    <h4 class="font-bold text-blue-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-blue-500"></i> Identified Risk Factors</h4>
+                                    <ul id="factors-list" class="space-y-3"></ul>
+                                </div>
+                                
+                                <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100/50">
+                                    <h4 class="font-bold text-emerald-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-shield-heart text-emerald-500"></i> Protective Actions</h4>
+                                    <ul id="recs-list" class="space-y-3"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 uppercase tracking-wider">Risk Trend (Last 6 Months)</h4>
+                        <div class="w-full h-48">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function calcBMI() {
+        const h = parseFloat(document.getElementById('height_cm').value);
+        const w = parseFloat(document.getElementById('weight_kg').value);
+        if(h > 0 && w > 0) {
+            const h_m = h / 100;
+            const bmi = w / (h_m * h_m);
+            document.getElementById('bmi').value = bmi.toFixed(1);
+        } else {
+            document.getElementById('bmi').value = '';
+        }
+    }
+
+    function nextStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        
+        const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+        let valid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+        if (!valid) return;
+
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const nextStepEl = document.getElementById(`step-${current + 1}`);
+        nextStepEl.classList.remove('hidden');
+        nextStepEl.classList.add('block');
+
+        updateProgress(current + 1);
+    }
+
+    function prevStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const prevStepEl = document.getElementById(`step-${current - 1}`);
+        prevStepEl.classList.remove('hidden');
+        prevStepEl.classList.add('block');
+
+        updateProgress(current - 1);
+    }
+
+    function updateProgress(step) {
+        const labels = {
+            1: "Step 1 of 3: Profile & Lifestyle",
+            2: "Step 2 of 3: Symptoms",
+            3: "Step 3 of 3: Biometrics & Labs"
+        };
+        const pct = {1: '33%', 2: '66%', 3: '100%'};
+        document.getElementById('step-label').textContent = labels[step];
+        document.getElementById('step-percentage').textContent = pct[step];
+        document.getElementById('wizard-progress').style.width = pct[step];
+    }
+</script>
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+{% endblock %}

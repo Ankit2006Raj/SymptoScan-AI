@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SymptoScan AI - Intelligent Health Insights{% endblock %}</title>
+    <meta name="description"
+        content="SymptoScan AI analyzes your symptoms, predicts potential health risks, and provides personalized recommendations to help you take control of your health.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (via CDN for development/demo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for custom colors to match design -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',     // Blue
+                        secondary: '#10B981',   // Green
+                        dark: '#0f172a',
+                        light: '#F8FAFC',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-light text-slate-800">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 top-0 glass shadow-sm">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="{{ url_for('views.index') }}" class="flex items-center gap-2 cursor-pointer no-underline">
+                    <div class="text-primary text-2xl">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-800 leading-tight tracking-tight mb-0">SymptoScan <span
+                                class="text-primary">AI</span></h1>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold mb-0">AI Powered
+                            Health Intelligence</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                    <a href="{{ url_for('views.index') }}" class="hover:text-primary transition">Home</a>
+                    <a href="{{ url_for('views.dashboard') }}" class="hover:text-primary transition">Dashboard</a>
+                    <a href="{{ url_for('views.symptom_checker') }}" class="hover:text-primary transition">Symptom Checker</a>
+                    <a href="{{ url_for('views.predict_comprehensive') }}" class="hover:text-primary transition">360° Health Assessment</a>
+                    <a href="{{ url_for('views.about') }}" class="hover:text-primary transition">About</a>
+                    <a href="{{ url_for('views.contact') }}" class="hover:text-primary transition">Contact</a>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="{{ url_for('views.symptom_checker') }}"
+                        class="px-5 py-2 text-sm font-semibold text-white bg-secondary hover:bg-emerald-600 rounded-full shadow-lg shadow-emerald-500/30 transition no-underline">Start
+                        Free Assessment</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="lg:hidden text-slate-600 hover:text-primary focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel (Hidden by default) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t mt-4 absolute w-full shadow-lg">
+            <div class="flex flex-col px-4 py-4 space-y-4">
+                <a href="{{ url_for('views.index') }}" class="text-slate-600 hover:text-primary font-medium">Home</a>
+                <a href="{{ url_for('views.dashboard') }}"
+                    class="text-slate-600 hover:text-primary font-medium">Dashboard</a>
+                <a href="{{ url_for('views.symptom_checker') }}" class="text-slate-600 hover:text-primary font-medium">Symptom Checker</a>
+                <a href="{{ url_for('views.predict_comprehensive') }}" class="text-slate-600 hover:text-primary font-medium">360° Health Assessment</a>
+                <a href="{{ url_for('views.about') }}" class="text-slate-600 hover:text-primary font-medium">About</a>
+                <a href="{{ url_for('views.contact') }}" class="text-slate-600 hover:text-primary font-medium">Contact</a>
+                <hr>
+                <div class="flex flex-col space-y-3">
+                    <a href="{{ url_for('views.symptom_checker') }}"
+                        class="text-center px-5 py-2 text-sm font-semibold text-white bg-secondary rounded-full no-underline">Start
+                        Free Assessment</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Overlapping CTA Section -->
+    <div class="relative z-20 -mb-32 px-4 md:px-6 lg:px-8 max-w-6xl mx-auto reveal active">
+        <div
+            class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-10 md:p-14 shadow-2xl border border-slate-700 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+            <!-- Decorations -->
+            <div
+                class="absolute top-0 right-0 w-80 h-80 bg-primary rounded-full mix-blend-screen filter blur-[80px] opacity-40 pointer-events-none">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 pointer-events-none">
+            </div>
+            <div
+                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjZTJlOGYwIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgNDBoNDBWMEgweiIvPjwvZz48L3N2Zz4=')] opacity-5 pointer-events-none">
+            </div>
+
+            <div class="relative z-10 max-w-xl text-center md:text-left">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] font-bold text-emerald-400 mb-6 uppercase tracking-widest backdrop-blur-md">
+                    <i class="fa-solid fa-bolt text-amber-400"></i> Actionable Intelligence
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight tracking-tight">Ready to
+                    Take Control of Your Health?</h2>
+                <p class="text-slate-300 text-lg mb-0">Join thousands of users and leading clinicians leveraging
+                    SymptoScan AI for early detection and personalized health insights.</p>
+            </div>
+
+            <div class="relative z-10 flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto">
+                <a href="{{ url_for('views.symptom_checker') }}"
+                    class="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-1 no-underline text-center flex items-center justify-center gap-2">
+                    Start Assessment <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="{{ url_for('views.about') }}"
+                    class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 text-white font-semibold rounded-xl transition-all transform hover:-translate-y-1 no-underline text-center">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer Section -->
+    <footer class="bg-[#0b1120] pt-48 pb-10 text-slate-300 relative border-t border-slate-800/50">
+        <!-- Subtle Grid Pattern in Footer -->
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgc3Ryb2tlPSIjZTJlOGYwIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgNDBoNDBWMEgweiIvPjwvZz48L3N2Zz4=')] opacity-[0.02] pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
+
+                <!-- Brand Info (Spans 2 columns) -->
+                <div class="lg:col-span-2">
+                    <a href="{{ url_for('views.index') }}"
+                        class="flex items-center gap-3 cursor-pointer no-underline mb-8">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+                            <i class="fa-solid fa-heart-pulse text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-extrabold text-white leading-none tracking-tight mb-0">SymptoScan
+                                <span class="text-primary">AI</span></h1>
+                            <p class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-0 mt-1">
+                                Enterprise Grade Health</p>
+                        </div>
+                    </a>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-8 pr-4 md:pr-12">
+                        Pioneering digital health intelligence. We empower individuals and healthcare professionals with
+                        clinical-grade, AI-driven risk assessments.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://github.com/Ankit2006Raj" target="_blank"
+                            class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:bg-primary hover:border-primary transition-all shadow-sm"
+                            title="GitHub"><i class="fa-brands fa-github text-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/ankit2006raj" target="_blank"
+                            class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#0A66C2] hover:border-[#0A66C2] transition-all shadow-sm"
+                            title="LinkedIn"><i class="fa-brands fa-linkedin-in text-lg"></i></a>
+                        <a href="mailto:ankit9905163014@gmail.com"
+                            class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:bg-emerald-500 hover:border-emerald-500 transition-all shadow-sm"
+                            title="Email"><i class="fa-solid fa-envelope text-lg"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product Links -->
+                <div class="lg:col-span-1">
+                    <h4 class="font-bold text-white mb-6 text-sm uppercase tracking-widest">Platform</h4>
+                    <ul class="space-y-4 text-sm list-none p-0 m-0 font-medium">
+                        <li><a href="{{ url_for('views.symptom_checker') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Symptom
+                                Checker</a></li>
+                        <li><a href="{{ url_for('views.risk_prediction') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Risk
+                                Prediction</a></li>
+                        <li><a href="{{ url_for('views.dashboard') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Health
+                                Dashboard</a></li>
+                        <li><a href="{{ url_for('views.ai_assistant') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-300 no-underline flex items-center gap-2">AI
+                                Assistant <span
+                                    class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-blue-500/20 text-blue-400">BETA</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div class="lg:col-span-1">
+                    <h4 class="font-bold text-white mb-6 text-sm uppercase tracking-widest">Company</h4>
+                    <ul class="space-y-4 text-sm list-none p-0 m-0 font-medium">
+                        <li><a href="{{ url_for('views.about') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">About
+                                Us</a></li>
+                        <li><a href="{{ url_for('views.about') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Medical
+                                Board</a></li>
+                        <li><a href="{{ url_for('views.contact') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Contact
+                                Support</a></li>
+                        <li><a href="{{ url_for('views.index') }}"
+                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Pricing</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter & Trust (Spans 2 columns) -->
+                <div class="lg:col-span-2">
+                    <h4 class="font-bold text-white mb-6 text-sm uppercase tracking-widest">Stay Updated</h4>
+                    <p class="text-sm text-slate-400 mb-5 leading-relaxed">Subscribe to our newsletter for the latest AI
+                        health insights and platform updates. No spam, ever.</p>
+                    <form class="relative mb-8 group">
+                        <input type="email" placeholder="Enter your work email"
+                            class="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all pr-32 group-hover:border-slate-600">
+                        <button type="submit"
+                            class="absolute right-1.5 top-1.5 bottom-1.5 px-5 bg-primary text-white text-xs font-bold rounded-lg flex items-center justify-center hover:bg-blue-500 transition-colors shadow-md">
+                            Subscribe
+                        </button>
+                    </form>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div
+                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm">
+                            <i class="fa-solid fa-shield-halved text-emerald-400 text-xl"></i>
+                            <div>
+                                <p
+                                    class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-0 leading-none">
+                                    Compliant</p>
+                                <p class="text-sm text-white font-bold mb-0 leading-tight mt-0.5">HIPAA Ready</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-800/40 border border-slate-700/50 backdrop-blur-sm">
+                            <i class="fa-solid fa-lock text-blue-400 text-xl"></i>
+                            <div>
+                                <p
+                                    class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-0 leading-none">
+                                    Security</p>
+                                <p class="text-sm text-white font-bold mb-0 leading-tight mt-0.5">256-Bit AES</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Footer -->
+            <div
+                class="border-t border-slate-800/60 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-xs text-slate-500 mb-0 font-medium text-center md:text-left">
+                    &copy; 2026 SymptoScan AI Inc. All rights reserved. <br class="md:hidden">
+                    <span class="text-slate-600 md:ml-2 block md:inline mt-2 md:mt-0">Disclaimer: For informational
+                        purposes only. Does not replace professional medical advice.</span>
+                </p>
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-semibold shrink-0">
+                    <a href="{{ url_for('views.about') }}"
+                        class="text-slate-500 hover:text-white transition-colors no-underline">Privacy Policy</a>
+                    <a href="{{ url_for('views.about') }}"
+                        class="text-slate-500 hover:text-white transition-colors no-underline">Terms of Service</a>
+                    <a href="{{ url_for('views.about') }}"
+                        class="text-slate-500 hover:text-white transition-colors no-underline">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

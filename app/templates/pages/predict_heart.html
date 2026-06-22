@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+{% block title %}Cardiovascular Risk Assessment - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen pt-24 pb-12 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-red-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+
+    <div class="container mx-auto px-4 max-w-6xl relative z-10">
+        
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-10">
+            <a href="{{ url_for('views.risk_prediction') }}" class="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-slate-500 hover:text-rose-600 hover:border-rose-600 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="bg-rose-50 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider"><i class="fa-solid fa-heart-pulse mr-1"></i> Cardiology Module</span>
+                </div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Heart Disease Assessment</h1>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left: Wizard Form -->
+            <div class="lg:col-span-3" id="wizard-container">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    
+                    <!-- Progress Tracker -->
+                    <div class="mb-8">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">
+                            <span id="step-label">Step 1 of 3: Profile & History</span>
+                            <span id="step-percentage">33%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
+                            <div id="wizard-progress" class="bg-gradient-to-r from-rose-400 to-red-500 h-2 rounded-full transition-all duration-500" style="width: 33%"></div>
+                        </div>
+                    </div>
+
+                    <form id="prediction-form" data-disease="heart">
+                        
+                        <!-- Step 1: Profile & History -->
+                        <div id="step-1" class="wizard-step block">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-address-card"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Profile & Medical History</h3>
+                                <p class="text-slate-500 text-sm">Provide demographic and relevant history.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Your Age</label>
+                                    <div class="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-rose-600 hover:bg-slate-100 transition flex items-center justify-center border-r border-slate-200" onclick="document.getElementById('age').stepDown()"><i class="fa-solid fa-minus"></i></button>
+                                        <input type="number" id="age" required min="1" max="120" value="45" class="w-full h-12 text-center text-xl font-bold text-slate-800 focus:outline-none appearance-none bg-transparent">
+                                        <button type="button" class="w-12 h-12 bg-slate-50 text-slate-500 hover:text-rose-600 hover:bg-slate-100 transition flex items-center justify-center border-l border-slate-200" onclick="document.getElementById('age').stepUp()"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Gender</label>
+                                    <select id="gender" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Smoking Status</label>
+                                    <select id="smoking" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="no">Never Smoked</option>
+                                        <option value="former">Former Smoker</option>
+                                        <option value="current">Current Smoker</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Alcohol Consumption</label>
+                                    <select id="alcohol_consumption" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-sm appearance-none cursor-pointer">
+                                        <option value="none">None</option>
+                                        <option value="low">Low / Occasional</option>
+                                        <option value="moderate">Moderate</option>
+                                        <option value="high">High / Frequent</option>
+                                    </select>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Family History of Heart Disease?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="family_history" id="family_history" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-rose-500 peer-checked:bg-rose-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="family_history" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">History of Diabetes?</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="diabetes_history" id="diabetes_history" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-rose-500 peer-checked:bg-rose-50 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="diabetes_history" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <span class="font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex justify-end">
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(1)">
+                                    Continue to Symptoms <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Symptoms -->
+                        <div id="step-2" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-stethoscope"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Cardiac Symptoms</h3>
+                                <p class="text-slate-500 text-sm">Select any active symptoms you are experiencing.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Chest Pain / Angina?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="chest_pain" id="chest_pain" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-red-500 peer-checked:bg-red-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-heart-crack text-red-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="chest_pain" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <i class="fa-solid fa-check text-slate-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Palpitations?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="palpitations" id="palpitations" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-heart-pulse text-orange-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="palpitations" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <i class="fa-solid fa-check text-slate-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="block text-sm font-bold text-slate-700 mb-4">Shortness of Breath?</label>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="shortness_of_breath" id="shortness_of_breath" value="yes" class="peer sr-only">
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-rose-500 peer-checked:bg-rose-50 transition-all shadow-sm">
+                                                <i class="fa-solid fa-lungs text-rose-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">Yes</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer">
+                                            <input type="radio" name="shortness_of_breath" value="no" class="peer sr-only" checked>
+                                            <div class="rounded-xl border-2 border-slate-200 bg-white p-3 text-center hover:bg-slate-50 peer-checked:border-slate-500 peer-checked:bg-slate-100 transition-all shadow-sm">
+                                                <i class="fa-solid fa-check text-slate-400 text-xl mb-1"></i>
+                                                <span class="block font-bold text-slate-700 text-sm">No</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(2)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="button" class="px-8 py-3.5 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2" onclick="nextStep(2)">
+                                    Continue to Vitals <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Biometrics & Labs -->
+                        <div id="step-3" class="wizard-step hidden">
+                            <div class="mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4">
+                                    <i class="fa-solid fa-flask-vial"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800 mb-2">Vitals & Labs</h3>
+                                <p class="text-slate-500 text-sm">Provide your latest cardiovascular measurements.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>Total Cholesterol</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">mg/dL</span>
+                                    </label>
+                                    <input type="number" id="cholesterol" required min="100" max="500" placeholder="e.g. 180" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>Systolic Blood Pressure</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">mmHg</span>
+                                    </label>
+                                    <input type="number" id="systolic_bp" required min="80" max="250" placeholder="e.g. 120" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                </div>
+
+                                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                                    <label class="flex justify-between items-center text-sm font-bold text-slate-700 mb-3">
+                                        <span>Resting Heart Rate</span>
+                                        <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-500 font-medium">bpm</span>
+                                    </label>
+                                    <input type="number" id="heart_rate" required min="40" max="200" placeholder="e.g. 70" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 bg-white font-bold text-slate-800 shadow-inner text-lg">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 flex gap-3 justify-end">
+                                <button type="button" class="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-500 font-bold rounded-xl shadow-sm transition flex items-center" onclick="prevStep(3)">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <button type="submit" class="px-10 py-3.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-bold rounded-xl shadow-lg shadow-rose-500/30 transition flex items-center gap-2" id="submit-btn">
+                                    Calculate Cardiac Risk <i class="fa-solid fa-microchip"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Context Pane -->
+            <div class="hidden lg:block lg:col-span-1" id="info-sidebar">
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm sticky top-28">
+                    <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 mb-4">
+                        <i class="fa-solid fa-heart-pulse text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-800 mb-2">Why we ask this</h4>
+                    <p class="text-sm text-slate-500 mb-4 leading-relaxed">Cardiovascular diseases are the leading cause of death globally. Early detection is crucial.</p>
+                    <ul class="space-y-3 text-xs text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-rose-500 mt-0.5"></i> <strong>Systolic BP</strong> (the top number) measures the force of blood against your artery walls.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-rose-500 mt-0.5"></i> <strong>High Cholesterol</strong> can build up in blood vessels, restricting blood flow.</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-rose-500 mt-0.5"></i> <strong>Chest Pain</strong> can be a sign of angina or an impending heart attack.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results Dashboard -->
+            <div class="lg:col-span-4 hidden" id="results-dashboard">
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center gap-3 mb-8 border-b border-slate-100 pb-6">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Cardiovascular Analysis</h3>
+                            <p class="text-slate-500 text-sm">AI-generated risk prediction based on your profile.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                        <div class="md:col-span-4 flex flex-col items-center justify-center p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                            <div class="relative w-48 h-48">
+                                <canvas id="gaugeChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-8">
+                                    <span class="text-5xl font-extrabold text-slate-800" id="risk-score-value">0%</span>
+                                </div>
+                            </div>
+                            <span class="mt-4 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full" id="risk-category-badge">CALCULATING</span>
+                        </div>
+                        
+                        <div class="md:col-span-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                                <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-100/50">
+                                    <h4 class="font-bold text-rose-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Identified Risk Factors</h4>
+                                    <ul id="factors-list" class="space-y-3"></ul>
+                                </div>
+                                
+                                <div class="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100/50">
+                                    <h4 class="font-bold text-emerald-900 text-sm mb-4 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-shield-heart text-emerald-500"></i> Protective Actions</h4>
+                                    <ul id="recs-list" class="space-y-3"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-slate-100">
+                        <h4 class="font-bold text-slate-800 text-sm mb-4 uppercase tracking-wider">Risk Trend (Last 6 Months)</h4>
+                        <div class="w-full h-48">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function nextStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        
+        const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+        let valid = true;
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.reportValidity();
+                valid = false;
+            }
+        });
+        if (!valid) return;
+
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const nextStepEl = document.getElementById(`step-${current + 1}`);
+        nextStepEl.classList.remove('hidden');
+        nextStepEl.classList.add('block');
+
+        updateProgress(current + 1);
+    }
+
+    function prevStep(current) {
+        const currentStepEl = document.getElementById(`step-${current}`);
+        currentStepEl.classList.add('hidden');
+        currentStepEl.classList.remove('block');
+        const prevStepEl = document.getElementById(`step-${current - 1}`);
+        prevStepEl.classList.remove('hidden');
+        prevStepEl.classList.add('block');
+
+        updateProgress(current - 1);
+    }
+
+    function updateProgress(step) {
+        const labels = {
+            1: "Step 1 of 3: Profile & History",
+            2: "Step 2 of 3: Symptoms",
+            3: "Step 3 of 3: Vitals & Labs"
+        };
+        const pct = {1: '33%', 2: '66%', 3: '100%'};
+        document.getElementById('step-label').textContent = labels[step];
+        document.getElementById('step-percentage').textContent = pct[step];
+        document.getElementById('wizard-progress').style.width = pct[step];
+    }
+</script>
+<script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+{% endblock %}

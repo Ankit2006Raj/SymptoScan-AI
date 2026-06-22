@@ -1,0 +1,589 @@
+{% extends "base.html" %}
+
+{% block title %}Symptom Checker - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-24 relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div
+        class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-96 h-96 bg-emerald-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30">
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10 max-w-4xl">
+
+        <div class="text-center mb-10">
+            <div
+                class="inline-flex items-center px-3 py-1 rounded-full badge-soft-blue text-xs font-bold mb-4 uppercase tracking-wider">
+                <i class="fa-solid fa-stethoscope mr-2"></i> Symptom Analysis
+            </div>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">AI Symptom Checker</h1>
+            <p class="text-slate-600 max-w-2xl mx-auto">Get an instant AI-powered preliminary health analysis based on
+                your symptoms. Please note this is not a substitute for professional medical advice.</p>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-slate-200 z-0"></div>
+                <div id="progress-bar"
+                    class="absolute left-0 top-1/2 transform -translate-y-1/2 h-1 bg-primary z-0 transition-all duration-500 w-[25%]">
+                </div>
+
+                <!-- Steps -->
+                <div class="relative z-10 flex flex-col items-center step-indicator active" data-step="1">
+                    <div
+                        class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-md transition-colors duration-300 step-circle">
+                        1</div>
+                    <span class="text-xs font-semibold mt-2 text-primary step-text">Patient Info</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center step-indicator" data-step="2">
+                    <div
+                        class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex items-center justify-center font-bold shadow-sm transition-colors duration-300 step-circle">
+                        2</div>
+                    <span class="text-xs font-semibold mt-2 text-slate-400 step-text">Symptoms</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center step-indicator" data-step="3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex items-center justify-center font-bold shadow-sm transition-colors duration-300 step-circle">
+                        3</div>
+                    <span class="text-xs font-semibold mt-2 text-slate-400 step-text">Analysis</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center step-indicator" data-step="4">
+                    <div
+                        class="w-10 h-10 rounded-full bg-white border-2 border-slate-200 text-slate-400 flex items-center justify-center font-bold shadow-sm transition-colors duration-300 step-circle">
+                        4</div>
+                    <span class="text-xs font-semibold mt-2 text-slate-400 step-text">Results</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-10 relative overflow-hidden">
+
+            <!-- STEP 1: PATIENT INFO -->
+            <div id="step-1" class="step-content active">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-user text-primary"></i> Tell us about yourself
+                </h3>
+
+                <form id="form-step-1">
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">Biological Sex</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="gender-select" value="Male" class="peer sr-only" required>
+                                <div
+                                    class="rounded-2xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-primary peer-checked:bg-blue-50 transition-all">
+                                    <i
+                                        class="fa-solid fa-mars text-2xl text-slate-400 peer-checked:text-primary mb-2 block"></i>
+                                    <span class="font-bold text-slate-700">Male</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="gender-select" value="Female" class="peer sr-only">
+                                <div
+                                    class="rounded-2xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-pink-500 peer-checked:bg-pink-50 transition-all">
+                                    <i
+                                        class="fa-solid fa-venus text-2xl text-slate-400 peer-checked:text-pink-500 mb-2 block"></i>
+                                    <span class="font-bold text-slate-700">Female</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="gender-select" value="Other" class="peer sr-only">
+                                <div
+                                    class="rounded-2xl border-2 border-slate-200 bg-white p-4 text-center hover:bg-slate-50 peer-checked:border-purple-500 peer-checked:bg-purple-50 transition-all">
+                                    <i
+                                        class="fa-solid fa-genderless text-2xl text-slate-400 peer-checked:text-purple-500 mb-2 block"></i>
+                                    <span class="font-bold text-slate-700">Other</span>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="hidden" id="gender" required>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">Age</label>
+                        <div
+                            class="flex items-center max-w-[200px] bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                            <button type="button" id="age-minus"
+                                class="w-14 h-14 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-primary transition font-bold text-xl flex items-center justify-center border-r border-slate-200 focus:outline-none"><i
+                                    class="fa-solid fa-minus"></i></button>
+                            <input type="number" id="age" required min="1" max="120" value="30"
+                                class="w-full h-14 text-center text-xl font-bold text-slate-800 focus:outline-none appearance-none bg-transparent m-0 p-0"
+                                style="-moz-appearance: textfield;">
+                            <button type="button" id="age-plus"
+                                class="w-14 h-14 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-primary transition font-bold text-xl flex items-center justify-center border-l border-slate-200 focus:outline-none"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">Existing Medical Conditions
+                            (Optional)</label>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <button type="button"
+                                class="history-chip px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-600 hover:border-secondary hover:text-secondary hover:bg-emerald-50 transition-colors focus:outline-none"
+                                data-condition="None">None</button>
+                            <button type="button"
+                                class="history-chip px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-600 hover:border-secondary hover:text-secondary hover:bg-emerald-50 transition-colors focus:outline-none"
+                                data-condition="Diabetes">Diabetes</button>
+                            <button type="button"
+                                class="history-chip px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-600 hover:border-secondary hover:text-secondary hover:bg-emerald-50 transition-colors focus:outline-none"
+                                data-condition="Hypertension">Hypertension</button>
+                            <button type="button"
+                                class="history-chip px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-600 hover:border-secondary hover:text-secondary hover:bg-emerald-50 transition-colors focus:outline-none"
+                                data-condition="Asthma">Asthma</button>
+                            <button type="button"
+                                class="history-chip px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-600 hover:border-secondary hover:text-secondary hover:bg-emerald-50 transition-colors focus:outline-none"
+                                data-condition="Heart Disease">Heart Disease</button>
+                        </div>
+                        <textarea id="medical-history" rows="3" placeholder="Describe any other conditions..."
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-slate-50 hover:bg-white text-sm shadow-inner"></textarea>
+                    </div>
+
+                    <div class="flex justify-end border-t border-slate-100 pt-6">
+                        <button type="button" id="btn-next-1"
+                            class="px-8 py-3 bg-primary hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 transition flex items-center gap-2 focus:outline-none">
+                            Next Step <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STEP 2: SYMPTOMS -->
+            <div id="step-2" class="step-content hidden">
+                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-list text-primary"></i> Describe your symptoms
+                </h3>
+
+                <form id="form-step-2">
+
+                    <!-- New Advanced Explorer UI -->
+                    <div
+                        class="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-6 flex flex-col lg:flex-row shadow-sm">
+
+                        <!-- Left Panel: Categories & Body Map -->
+                        <div
+                            class="w-full lg:w-1/3 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 flex flex-col">
+                            <!-- Toggle Tabs -->
+                            <div class="flex border-b border-slate-200 p-3 bg-white">
+                                <button type="button" id="tab-categories"
+                                    class="flex-1 py-2 text-sm font-bold bg-primary/10 text-primary rounded-lg transition-colors">Categories</button>
+                                <button type="button" id="tab-bodymap"
+                                    class="flex-1 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors ml-2">Body
+                                    Map</button>
+                            </div>
+
+                            <!-- Categories View -->
+                            <div id="view-categories"
+                                class="flex-1 overflow-y-auto max-h-80 lg:max-h-[500px] p-2 space-y-1">
+                                <!-- Generated by JS -->
+                            </div>
+
+                            <!-- Body Map View -->
+                            <div id="view-bodymap"
+                                class="hidden flex-1 overflow-y-auto max-h-80 lg:max-h-[500px] p-4 flex items-center justify-center relative">
+                                <div class="text-center w-full max-w-[200px] relative">
+                                    <svg viewBox="0 0 100 250" class="w-full h-auto drop-shadow-md">
+                                        <!-- Head -->
+                                        <g class="body-region cursor-pointer group" data-region="Head & Neurological">
+                                            <circle cx="50" cy="20" r="15" fill="#e2e8f0"
+                                                class="group-hover:fill-primary/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <text x="50" y="22" font-size="6" text-anchor="middle" fill="#475569"
+                                                class="group-hover:fill-primary font-bold pointer-events-none">Head</text>
+                                        </g>
+                                        <!-- Chest/Respiratory/Cardiac -->
+                                        <g class="body-region cursor-pointer group" data-region="Respiratory">
+                                            <path d="M35 45 Q50 35 65 45 L60 80 Q50 85 40 80 Z" fill="#e2e8f0"
+                                                class="group-hover:fill-blue-400/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <text x="50" y="65" font-size="6" text-anchor="middle" fill="#475569"
+                                                class="group-hover:fill-blue-600 font-bold pointer-events-none">Chest</text>
+                                        </g>
+                                        <!-- Digestive/Abdomen -->
+                                        <g class="body-region cursor-pointer group" data-region="Digestive">
+                                            <path d="M40 80 Q50 85 60 80 L65 110 Q50 120 35 110 Z" fill="#e2e8f0"
+                                                class="group-hover:fill-emerald-400/30 transition-colors"
+                                                stroke="#94a3b8" stroke-width="1.5" />
+                                            <text x="50" y="100" font-size="6" text-anchor="middle" fill="#475569"
+                                                class="group-hover:fill-emerald-600 font-bold pointer-events-none">Stomach</text>
+                                        </g>
+                                        <!-- Pelvis/Women's health -->
+                                        <g class="body-region cursor-pointer group" data-region="Women's Health">
+                                            <path d="M35 110 Q50 120 65 110 L70 130 Q50 145 30 130 Z" fill="#e2e8f0"
+                                                class="group-hover:fill-purple-400/30 transition-colors"
+                                                stroke="#94a3b8" stroke-width="1.5" />
+                                            <text x="50" y="125" font-size="5" text-anchor="middle" fill="#475569"
+                                                class="group-hover:fill-purple-600 font-bold pointer-events-none">Pelvis</text>
+                                        </g>
+                                        <!-- Arms (Musculoskeletal/Skin) -->
+                                        <g class="body-region cursor-pointer group" data-region="Musculoskeletal">
+                                            <path d="M35 45 L15 100 L20 105 L40 80" fill="#e2e8f0"
+                                                class="group-hover:fill-amber-400/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <path d="M65 45 L85 100 L80 105 L60 80" fill="#e2e8f0"
+                                                class="group-hover:fill-amber-400/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <text x="20" y="70" font-size="5" text-anchor="middle" fill="#475569"
+                                                class="font-bold pointer-events-none">Arm</text>
+                                            <text x="80" y="70" font-size="5" text-anchor="middle" fill="#475569"
+                                                class="font-bold pointer-events-none">Arm</text>
+                                        </g>
+                                        <!-- Legs (Musculoskeletal/Skin) -->
+                                        <g class="body-region cursor-pointer group" data-region="Musculoskeletal">
+                                            <path d="M30 130 L25 220 L35 220 L50 140" fill="#e2e8f0"
+                                                class="group-hover:fill-amber-400/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <path d="M70 130 L75 220 L65 220 L50 140" fill="#e2e8f0"
+                                                class="group-hover:fill-amber-400/30 transition-colors" stroke="#94a3b8"
+                                                stroke-width="1.5" />
+                                            <text x="32" y="180" font-size="5" text-anchor="middle" fill="#475569"
+                                                class="font-bold pointer-events-none">Leg</text>
+                                            <text x="68" y="180" font-size="5" text-anchor="middle" fill="#475569"
+                                                class="font-bold pointer-events-none">Leg</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Symptom Selection -->
+                        <div class="w-full lg:w-2/3 flex flex-col bg-slate-50/30">
+
+                            <!-- Search & Header -->
+                            <div class="p-4 border-b border-slate-200 bg-white sticky top-0 z-10 shadow-sm">
+                                <h4 id="current-category-title"
+                                    class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-layer-group text-primary"></i> General Symptoms
+                                </h4>
+                                <div class="relative">
+                                    <i
+                                        class="fa-solid fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                    <input type="text" id="symptom-search" placeholder="Search symptoms..."
+                                        class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-slate-50 hover:bg-white text-sm shadow-inner">
+                                </div>
+                            </div>
+
+                            <!-- Selected Symptoms Drawer -->
+                            <div id="selected-symptoms-container"
+                                class="px-4 py-3 bg-blue-50/80 border-b border-blue-100 min-h-[60px] hidden shadow-inner transition-all">
+                                <div
+                                    class="text-xs font-bold text-blue-800 uppercase tracking-wider mb-2 flex justify-between items-center">
+                                    <span>Selected Symptoms (<span id="selected-count">0</span>)</span>
+                                    <button type="button" id="clear-all-symptoms"
+                                        class="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition">Clear
+                                        All</button>
+                                </div>
+                                <div id="selected-chips" class="flex flex-wrap gap-2">
+                                    <!-- Selected chips injected by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Smart Suggestions -->
+                            <div id="smart-suggestions"
+                                class="p-4 bg-emerald-50/80 border-b border-emerald-100 hidden shadow-inner transition-all">
+                                <h5
+                                    class="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2 flex items-center gap-1">
+                                    <i class="fa-solid fa-lightbulb text-amber-500"></i> AI Suggestions
+                                </h5>
+                                <div id="suggestion-chips" class="flex flex-wrap gap-2">
+                                    <!-- Suggestion chips injected by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Symptom List -->
+                            <div id="symptom-list"
+                                class="flex-1 overflow-y-auto max-h-80 lg:max-h-[500px] p-4 space-y-3 bg-slate-50">
+                                <!-- Cards injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Free Text Area -->
+                    <div class="mb-8 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                        <label class="block text-sm font-bold text-slate-700 mb-2 flex justify-between items-center">
+                            <span>Additional Details (Optional)</span>
+                            <span class="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-1 rounded-md">Free
+                                Text</span>
+                        </label>
+                        <textarea id="symptoms" rows="3"
+                            placeholder="Describe any additional details, context, or symptoms not listed above..."
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-slate-50 hover:bg-white text-sm shadow-inner"></textarea>
+                        <p class="text-xs text-slate-500 mt-2"><i class="fa-solid fa-info-circle text-primary/70"></i>
+                            Our AI analyzes both your selected options and your custom description.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Duration</label>
+                            <select id="duration" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition bg-slate-50 hover:bg-white appearance-none">
+                                <option value="" disabled selected>How long have you felt this way?</option>
+                                <option value="Less than 24 hours">Less than 24 hours</option>
+                                <option value="1-3 days">1 to 3 days</option>
+                                <option value="4-7 days">4 to 7 days</option>
+                                <option value="1-2 weeks">1 to 2 weeks</option>
+                                <option value="More than 2 weeks">More than 2 weeks</option>
+                                <option value="Ongoing / Chronic">Ongoing / Chronic</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2 flex justify-between">
+                                Severity (1-10) <span id="severity-value" class="text-primary font-bold">5</span>
+                            </label>
+                            <input type="range" id="severity" min="1" max="10" value="5"
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer mt-3">
+                            <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                                <span>Mild</span>
+                                <span>Moderate</span>
+                                <span>Severe</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between border-t border-slate-100 pt-6">
+                        <button type="button" id="btn-back-2"
+                            class="px-6 py-3 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 font-bold rounded-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" id="btn-analyze"
+                            class="px-8 py-3 bg-secondary hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Symptoms
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STEP 3: LOADING -->
+            <div id="step-3" class="step-content hidden text-center py-16">
+                <div class="relative w-40 h-40 mx-auto mb-10">
+                    <!-- Scanner effect -->
+                    <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                    <div class="absolute inset-0 border-t-4 border-primary rounded-full animate-spin"></div>
+                    <div class="absolute inset-2 border-4 border-slate-100 rounded-full"></div>
+                    <div class="absolute inset-2 border-b-4 border-secondary rounded-full animate-spin"
+                        style="animation-duration: 1.5s; animation-direction: reverse;"></div>
+
+                    <div class="absolute inset-0 flex items-center justify-center text-5xl text-primary drop-shadow-md">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                </div>
+                <h3 class="text-3xl font-extrabold text-slate-800 mb-3 tracking-tight">AI Analysis in Progress</h3>
+                <p class="text-slate-500 max-w-sm mx-auto mb-8 font-medium" id="loading-text">Initializing diagnostic
+                    algorithms...</p>
+
+                <!-- Advanced Progress bar -->
+                <div class="max-w-md mx-auto relative">
+                    <div class="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden shadow-inner">
+                        <div id="ai-progress-bar"
+                            class="h-3 rounded-full w-0 transition-all duration-300 relative overflow-hidden"
+                            style="background: linear-gradient(90deg, #3b82f6, #10b981);">
+                            <div class="absolute top-0 left-0 bottom-0 w-full animate-pulse bg-white/20"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs font-bold text-slate-400 mt-2">
+                        <span>Scanning</span>
+                        <span id="ai-progress-percentage">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: RESULTS DASHBOARD -->
+            <div id="step-4" class="step-content hidden animate-fade-in-up">
+                <!-- Top Risk Assessment Panel -->
+                <div class="bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl p-8 mb-8 text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20"></div>
+                    
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10 gap-8">
+                        <div class="flex-1">
+                            <div id="risk-badge" class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold mb-4 uppercase tracking-widest bg-white/10 border border-white/20 backdrop-blur-md">
+                                <!-- Populated by JS -->
+                            </div>
+                            <h2 class="text-3xl md:text-4xl font-extrabold mb-2 tracking-tight">Health Assessment Summary</h2>
+                            <p class="text-blue-200/80 max-w-xl text-sm md:text-base">Based on your inputs, our AI has generated a preliminary medical analysis. This report does not replace professional medical diagnosis.</p>
+                        </div>
+                        
+                        <!-- Visual Risk Meter -->
+                        <div class="flex flex-col items-center bg-white/10 border border-white/20 backdrop-blur-md p-6 rounded-2xl w-full md:w-auto">
+                            <div class="relative w-32 h-32 flex items-center justify-center mb-2">
+                                <svg class="transform -rotate-90 w-32 h-32">
+                                    <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="12" fill="transparent" class="text-slate-700/50" />
+                                    <circle id="risk-meter-circle" cx="64" cy="64" r="56" stroke="currentColor" stroke-width="12" fill="transparent" stroke-dasharray="351.8" stroke-dashoffset="351.8" class="text-emerald-400 transition-all duration-1000 ease-out" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span id="risk-score-value" class="text-3xl font-extrabold">0</span>
+                                    <span class="text-[10px] uppercase tracking-wider text-blue-200 font-bold">/ 100</span>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest uppercase text-blue-200">Risk Score</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Banner (Hidden by default) -->
+                <div id="emergency-banner" class="hidden mb-8 bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-6 text-white shadow-lg shadow-red-500/30 flex flex-col md:flex-row items-center gap-6 border border-red-500 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGwyMCAyME0yMCAwbC0yMCAyMCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIvPjwvc3ZnPg==')] opacity-20"></div>
+                    <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm z-10 relative">
+                        <i class="fa-solid fa-truck-medical text-3xl animate-pulse"></i>
+                    </div>
+                    <div class="flex-1 text-center md:text-left z-10 relative">
+                        <h4 class="text-xl font-extrabold mb-1 tracking-tight">SEEK IMMEDIATE MEDICAL CARE</h4>
+                        <p class="text-red-100 text-sm font-medium">Your symptoms are highly indicative of a severe or life-threatening condition. Do not wait. Call emergency services or visit the nearest emergency room.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                    <!-- Left Sidebar -->
+                    <div class="lg:col-span-4 flex flex-col gap-6">
+                        <!-- Patient Input Summary -->
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                            <div class="bg-slate-50 border-b border-slate-200 px-5 py-4">
+                                <h4 class="font-bold text-slate-800 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-clipboard-user text-primary"></i> Symptom Profile
+                                </h4>
+                            </div>
+                            <div class="p-5 space-y-4 text-sm">
+                                <div>
+                                    <span class="text-slate-500 font-semibold block mb-1">Reported Symptoms</span>
+                                    <p id="summary-symptoms" class="font-bold text-slate-800 bg-blue-50 p-3 rounded-xl border border-blue-100 leading-relaxed"></p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <span class="text-slate-500 font-semibold block mb-1">Duration</span>
+                                        <p id="summary-duration" class="font-bold text-slate-800"></p>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-500 font-semibold block mb-1">Severity</span>
+                                        <div class="flex items-center gap-2">
+                                            <span id="summary-severity" class="font-extrabold text-lg"></span><span class="text-slate-400">/ 10</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-slate-500 font-semibold block mb-1">Known Risk Factors</span>
+                                    <p id="summary-history" class="font-bold text-slate-800"></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Reasoning -->
+                        <div class="bg-blue-50/50 rounded-2xl border border-blue-100 shadow-inner overflow-hidden flex-1">
+                            <div class="bg-blue-100/50 border-b border-blue-200 px-5 py-4">
+                                <h4 class="font-bold text-blue-900 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-user-doctor text-primary"></i> Clinical Insights
+                                </h4>
+                            </div>
+                            <div class="p-5">
+                                <p id="explanation-text" class="text-sm text-slate-700 leading-relaxed font-medium m-0"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Content -->
+                    <div class="lg:col-span-8 flex flex-col gap-6">
+                        <!-- Top Conditions -->
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                            <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                <h4 class="font-bold text-slate-800 flex items-center gap-2 text-base">
+                                    <i class="fa-solid fa-chart-pie text-secondary"></i> Differential Diagnosis Matches
+                                </h4>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Confidence</span>
+                            </div>
+                            <div id="conditions-container" class="p-6 space-y-4">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Actionable Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- When to consult -->
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+                                <div class="px-5 py-4 border-b border-slate-100 bg-amber-50">
+                                    <h4 class="font-bold text-amber-900 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                        <i class="fa-solid fa-user-nurse text-amber-600"></i> Professional Care
+                                    </h4>
+                                </div>
+                                <div class="p-5 flex-1 bg-white">
+                                    <ul id="consult-doctor-list" class="space-y-3 text-sm text-slate-700 font-medium"></ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Home Care / Lifestyle -->
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+                                <div class="px-5 py-4 border-b border-slate-100 bg-emerald-50">
+                                    <h4 class="font-bold text-emerald-900 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                        <i class="fa-solid fa-house-medical text-emerald-600"></i> Home Care & Lifestyle
+                                    </h4>
+                                </div>
+                                <div class="p-5 flex-1 bg-white">
+                                    <ul id="home-care-list" class="space-y-3 text-sm text-slate-700 font-medium"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Red Flags (Dynamic) -->
+                        <div id="red-flags-container" class="hidden bg-white border-2 border-red-200 rounded-2xl overflow-hidden shadow-sm relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div>
+                            <div class="px-6 py-4 bg-red-50/50 border-b border-red-100">
+                                <h4 class="font-extrabold text-red-800 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-flag text-red-600"></i> Critical Red Flag Warnings
+                                </h4>
+                            </div>
+                            <div class="p-6">
+                                <ul id="red-flags-list" class="list-disc pl-5 space-y-2 text-red-700 text-sm font-bold"></ul>
+                            </div>
+                        </div>
+
+                        <!-- Questions for doctor -->
+                        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                                <h4 class="font-bold text-slate-800 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-comments-medical text-primary"></i> Follow-Up Questions for Doctor
+                                </h4>
+                            </div>
+                            <div class="p-6">
+                                <ul id="follow-up-list" class="space-y-3 text-sm text-slate-600 font-medium"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Actions -->
+                <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-slate-200 pt-8">
+                    <!-- Disclaimer -->
+                    <div class="flex items-start gap-3 max-w-xl">
+                        <i class="fa-solid fa-scale-balanced text-slate-300 text-2xl"></i>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium">
+                            <strong class="text-slate-600">Medical Disclaimer:</strong> This intelligence report provides preliminary information for educational purposes only. It is not a qualified medical diagnosis. Always consult a certified healthcare provider.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center justify-center md:justify-end gap-4 w-full md:w-auto">
+                        <a href="/dashboard" class="px-6 py-3.5 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 font-bold rounded-xl transition flex items-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-clock-rotate-left"></i> History
+                        </a>
+                        <button id="btn-restart" class="px-6 py-3.5 bg-slate-800 text-white hover:bg-slate-700 font-bold rounded-xl transition flex items-center gap-2 shadow-sm focus:outline-none">
+                            <i class="fa-solid fa-rotate-right"></i> New Assessment
+                        </button>
+                        <button id="btn-view" class="px-6 py-3.5 bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold rounded-xl shadow-sm transition flex items-center gap-2 border border-blue-200 focus:outline-none">
+                            <i class="fa-solid fa-eye"></i> View Report
+                        </button>
+                        <button id="btn-download" class="px-8 py-3.5 bg-primary text-white hover:bg-blue-700 font-bold rounded-xl shadow-lg shadow-blue-500/30 transition flex items-center gap-2 border border-blue-600 focus:outline-none">
+                            <i class="fa-solid fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/symptom_checker.js') }}"></script>
+{% endblock %}
