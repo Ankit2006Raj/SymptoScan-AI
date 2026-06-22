@@ -33,8 +33,9 @@ def run_startup_checks(app):
         
         # 4. Database Connection
         try:
+            db.create_all()
             db.engine.connect()
-            logger.info("Database connection successful.")
+            logger.info("Database connection and table creation successful.")
         except Exception as e:
             logger.error(f"CRITICAL: Database connection failed: {str(e)}")
 
@@ -49,7 +50,8 @@ def create_app(config_name='default'):
     load_dotenv()
     
     # Database Configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///symptoscan.db')
+    if os.getenv('DATABASE_URL'):
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev_key_123')
     
