@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% block title %}Personalized Recommendations - SymptoScan AI{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 min-h-screen py-16 relative">
+    <div class="container mx-auto px-4 max-w-7xl">
+        
+        <!-- Action Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100/50 border border-emerald-200 text-xs font-bold text-emerald-700 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated Plan
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Your Health Roadmap</h1>
+                <p class="text-slate-500 mt-1 max-w-2xl">Personalized, clinical-grade recommendations based on your recent 360° Health Assessment.</p>
+            </div>
+
+        </div>
+
+        <!-- Hero: Health Summary (Glassmorphism) -->
+        <div class="bg-gradient-to-r from-slate-900 to-[#0b1120] rounded-[2rem] p-8 md:p-10 text-white shadow-2xl relative overflow-hidden mb-10">
+            <!-- Decorations -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full mix-blend-screen filter blur-[100px] opacity-30 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-10 w-64 h-64 bg-emerald-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 pointer-events-none"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                
+                <!-- Main KPI -->
+                <div class="flex flex-col items-center justify-center lg:border-r border-slate-700/50 pr-0 lg:pr-8">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Overall Wellness Score</p>
+                    <div class="relative w-36 h-36 flex items-center justify-center mb-2">
+                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                            <!-- Background Circle -->
+                            <path class="text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <!-- Progress Circle -->
+                            <path class="text-emerald-400 stroke-current" stroke-dasharray="82, 100" stroke-width="3" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="absolute text-center">
+                            <span class="text-4xl font-extrabold text-white">82</span>
+                            <span class="text-xs text-slate-400 block font-medium mt-[-4px]">/100</span>
+                        </div>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +4% vs Last Month
+                    </div>
+                </div>
+
+                <!-- AI Analysis Summary -->
+                <div class="lg:col-span-2 pl-0 lg:pl-4">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-inner">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white m-0">AI Clinical Overview</h3>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-5">
+                        Your metabolic markers and cardiovascular indicators are stable. We detected minor risks associated with sedentary habits and mild dehydration. The recommendations below are tailored to optimize your energy levels and mitigate long-term cardiovascular risks.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-heart-circle-check text-emerald-400"></i> Heart Safe
+                        </span>
+                        <span class="px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-droplet text-amber-400"></i> Hydration Needed
+                        </span>
+                        <span class="px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-bed text-blue-400"></i> Quality Sleep
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Priority Actions Layer -->
+        <h3 class="text-lg font-extrabold text-slate-800 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-slate-400"></i> Priority Actions
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+            <!-- High Priority -->
+            <div class="bg-white rounded-2xl p-5 border-l-4 border-l-rose-500 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center text-rose-500">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-600 uppercase tracking-widest">High</span>
+                </div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">Increase Hydration</h4>
+                <p class="text-xs text-slate-600 leading-relaxed mb-0">Your recent symptoms suggest mild dehydration. Drink at least 2.5L of water daily.</p>
+            </div>
+            <!-- Moderate Priority -->
+            <div class="bg-white rounded-2xl p-5 border-l-4 border-l-amber-500 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+                        <i class="fa-solid fa-person-running"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-600 uppercase tracking-widest">Moderate</span>
+                </div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">Cardio Exercise</h4>
+                <p class="text-xs text-slate-600 leading-relaxed mb-0">Introduce 30 mins of moderate aerobic exercise 3x a week to improve stamina.</p>
+            </div>
+            <!-- Low Priority -->
+            <div class="bg-white rounded-2xl p-5 border-l-4 border-l-emerald-500 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 uppercase tracking-widest">Low</span>
+                </div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">Sleep Optimization</h4>
+                <p class="text-xs text-slate-600 leading-relaxed mb-0">Maintain your current 7-8 hours, but reduce screen time 1 hour before bed.</p>
+            </div>
+        </div>
+
+        <!-- Main Content & Sidebar Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Content (Recommendations Grid) -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Diet Section -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+                    <div class="flex items-center gap-3 mb-6 pl-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500 text-xl border border-emerald-100">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 m-0 leading-tight">Diet & Nutrition</h3>
+                            <p class="text-xs font-medium text-slate-500 m-0">Personalized for cardiovascular health</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pl-4">
+                        <!-- Foods to Eat -->
+                        <div class="bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/50">
+                            <h4 class="text-xs font-bold text-emerald-700 mb-3 flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> Foods to Eat</h4>
+                            <ul class="space-y-2 mb-0">
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-emerald-400 mt-1.5"></i> Leafy greens (Spinach, Kale)</li>
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-emerald-400 mt-1.5"></i> Omega-3 rich fish (Salmon)</li>
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-emerald-400 mt-1.5"></i> Whole grains (Quinoa, Oats)</li>
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-emerald-400 mt-1.5"></i> Nuts and seeds (Walnuts, Chia)</li>
+                            </ul>
+                        </div>
+                        <!-- Foods to Avoid -->
+                        <div class="bg-rose-50/50 rounded-2xl p-4 border border-rose-100/50">
+                            <h4 class="text-xs font-bold text-rose-700 mb-3 flex items-center gap-2"><i class="fa-solid fa-ban"></i> Foods to Limit</h4>
+                            <ul class="space-y-2 mb-0">
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-rose-400 mt-1.5"></i> Processed meats</li>
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-rose-400 mt-1.5"></i> High-sodium snacks</li>
+                                <li class="text-sm text-slate-700 flex items-start gap-2"><i class="fa-solid fa-circle text-[6px] text-rose-400 mt-1.5"></i> Sugary beverages</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise Section -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
+                    <div class="flex items-center gap-3 mb-6 pl-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-xl border border-blue-100">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 m-0 leading-tight">Exercise & Fitness</h3>
+                            <p class="text-xs font-medium text-slate-500 m-0">Balanced weekly routine</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pl-4">
+                        <div class="space-y-4">
+                            <!-- Routine 1 -->
+                            <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-primary"><i class="fa-solid fa-person-walking"></i></div>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-slate-800 m-0">Brisk Walking</h5>
+                                        <p class="text-xs text-slate-500 m-0">Cardiovascular Health</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-bold text-slate-800">30 mins</div>
+                                    <div class="text-xs font-semibold text-primary">3x / Week</div>
+                                </div>
+                            </div>
+                            <!-- Routine 2 -->
+                            <div class="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-indigo-500"><i class="fa-solid fa-spa"></i></div>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-slate-800 m-0">Yoga / Stretching</h5>
+                                        <p class="text-xs text-slate-500 m-0">Flexibility & Stress Relief</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-bold text-slate-800">15 mins</div>
+                                    <div class="text-xs font-semibold text-indigo-500">Daily</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lifestyle & Sleep Section -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+                    <div class="flex items-center gap-3 mb-6 pl-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 text-xl border border-indigo-100">
+                            <i class="fa-solid fa-bed-pulse"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 m-0 leading-tight">Sleep & Stress Management</h3>
+                            <p class="text-xs font-medium text-slate-500 m-0">Recovery & Mental Health</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pl-4 text-sm text-slate-600 leading-relaxed">
+                        <p class="mb-4">Quality sleep is crucial for cellular repair and metabolic regulation. Follow these guidelines to improve your sleep architecture:</p>
+                        <ul class="space-y-3 mb-0">
+                            <li class="flex gap-3">
+                                <i class="fa-regular fa-clock text-indigo-500 mt-1"></i>
+                                <span><strong>Consistent Schedule:</strong> Aim to sleep and wake up at the exact same time every day, including weekends.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-mobile-screen text-indigo-500 mt-1"></i>
+                                <span><strong>Digital Detox:</strong> Avoid screens (phones, TVs) at least 60 minutes before bedtime to prevent melatonin suppression.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <i class="fa-solid fa-mug-hot text-indigo-500 mt-1"></i>
+                                <span><strong>Caffeine Curfew:</strong> No coffee or caffeinated tea after 2:00 PM.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="space-y-6">
+                
+                <!-- Daily Checklist -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+                    <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                        <i class="fa-solid fa-list-check text-primary"></i> Daily Targets
+                    </h3>
+                    
+                    <!-- Progress -->
+                    <div class="mb-5">
+                        <div class="flex justify-between text-xs font-bold text-slate-600 mb-1.5">
+                            <span>Progress Today</span>
+                            <span class="text-primary" id="checklist-progress-text">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div id="checklist-progress-bar" class="h-full bg-primary rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3" id="daily-checklist">
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" class="checklist-checkbox w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" data-id="task-1">
+                            <span class="text-sm font-medium text-slate-700 transition-all">Morning Stretching</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" class="checklist-checkbox w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" data-id="task-2">
+                            <span class="text-sm font-medium text-slate-700 transition-all">Take Multivitamin</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" class="checklist-checkbox w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" data-id="task-3">
+                            <span class="text-sm font-medium text-slate-700 transition-all">Drink 2.5L Water</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" class="checklist-checkbox w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" data-id="task-4">
+                            <span class="text-sm font-medium text-slate-700 transition-all">30 Min Walk</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" class="checklist-checkbox w-4 h-4 text-primary rounded border-slate-300 focus:ring-primary" data-id="task-5">
+                            <span class="text-sm font-medium text-slate-700 transition-all">Read (No Screens) before bed</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hydration Tracker -->
+                <div class="bg-gradient-to-b from-blue-500 to-blue-600 rounded-3xl p-6 text-white shadow-md relative overflow-hidden">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 text-9xl"><i class="fa-solid fa-droplet"></i></div>
+                    <div class="relative z-10">
+                        <h3 class="text-sm font-bold text-blue-100 mb-1">Hydration Goal</h3>
+                        <div class="text-2xl font-extrabold mb-4"><span id="hydration-current">0.0</span>L <span class="text-sm font-medium text-blue-200">/ <span id="hydration-max">2.5</span>L</span></div>
+                        
+                        <div class="flex gap-2" id="hydration-glasses">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consult a Doctor / Emergency -->
+                <div class="bg-rose-50 rounded-3xl p-6 border border-rose-100">
+                    <h3 class="text-sm font-bold text-rose-800 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-stethoscope"></i> When to see a doctor
+                    </h3>
+                    <p class="text-xs text-rose-700/80 leading-relaxed mb-4">
+                        While your current assessment indicates stability, schedule a check-up if you experience:
+                    </p>
+                    <ul class="space-y-2 mb-4 text-xs font-medium text-rose-900">
+                        <li class="flex gap-2"><i class="fa-solid fa-angle-right mt-0.5 text-rose-400"></i> Persistent dizziness</li>
+                        <li class="flex gap-2"><i class="fa-solid fa-angle-right mt-0.5 text-rose-400"></i> Unexplained fatigue lasting > 2 weeks</li>
+                    </ul>
+                    
+                    <div class="w-full h-px bg-rose-200 mb-4"></div>
+                    
+                    <h3 class="text-sm font-bold text-rose-800 mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-truck-medical"></i> Emergency Warning
+                    </h3>
+                    <p class="text-xs text-rose-700/80 leading-relaxed mb-0">
+                        Seek immediate emergency care if you experience severe chest pain, sudden numbness, or difficulty breathing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/recommendations.js') }}"></script>
+{% endblock %}

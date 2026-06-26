@@ -6,9 +6,7 @@ views_bp = Blueprint('views', __name__)
 def index():
     return render_template('index.html')
 
-@views_bp.route('/dashboard')
-def dashboard():
-    return render_template('pages/dashboard.html')
+
 
 @views_bp.route('/symptom-checker')
 def symptom_checker():
@@ -62,6 +60,10 @@ def settings():
 @views_bp.route('/about')
 def about():
     return render_template('pages/about.html')
+
+@views_bp.route('/recommendations')
+def recommendations():
+    return render_template('pages/recommendations.html')
 
 @views_bp.route('/contact')
 def contact():

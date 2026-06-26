@@ -1,41 +1,60 @@
 <div align="center">
-  <h1>SymptoScan AI 🏥✨</h1>
-  <p><strong>AI-Powered Health Intelligence & Disease Risk Prediction Platform</strong></p>
+  
+  <img src="https://img.shields.io/badge/Status-Active-success.svg" alt="Status">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/Flask-2.0+-lightgrey.svg" alt="Flask">
+  <img src="https://img.shields.io/badge/TailwindCSS-3.0-06B6D4.svg?logo=tailwindcss" alt="Tailwind CSS">
+
+  <br><br>
+
+  <h1>🩺 SymptoScan AI</h1>
+  <p><strong>Next-Generation Health Intelligence & Disease Risk Prediction Platform</strong></p>
+
+  <p>
+    <a href="https://sympto-scan-ai-19pp.vercel.app/"><strong>Live Demo</strong></a> ·
+    <a href="#-key-features"><strong>Explore Features</strong></a> ·
+    <a href="#-getting-started"><strong>Quick Start</strong></a>
+  </p>
 </div>
 
-SymptoScan AI is a modern, comprehensive healthcare application designed to empower users with personalized health insights. Built with a beautiful glassmorphism UI, it uses advanced heuristics and machine learning algorithms to evaluate symptoms, predict disease risks, and analyze medical reports.
-https://sympto-scan-ai-19pp.vercel.app/
-![SymptoScan AI Dashboard](docs/images/hero.png)
+<br>
 
-## 🚀 Key Features
+SymptoScan AI is a comprehensive, modern healthcare application built to empower users with personalized health insights. Featuring a premium **glassmorphism UI**, it leverages advanced heuristics and intelligent algorithms to evaluate symptoms, predict disease risks, and generate clinical-grade personalized recommendations.
 
-*   **Intelligent Symptom Checker**: An interactive, category-based body explorer to input symptoms and receive instant AI-driven guidance.
-*   **Disease Risk Assessment Wizards**: Beautiful, multi-step health screenings for 5 major categories:
-    *   🫀 **Cardiovascular Health**
-    *   🩸 **Metabolic Health** (Diabetes)
-    *   🫘 **Kidney Health**
-    *   🧬 **Liver Health**
-    *   🫁 **Respiratory Health**
-*   **Comprehensive Dashboards**: Visualize your health data with dynamic gauge charts, trend analysis, and personalized action plans.
-*   **AI Medical Report Analysis**: Upload medical documents and let the AI extract and summarize key diagnostic information.
-*   **Virtual AI Assistant**: A built-in chat interface for real-time health-related queries and follow-ups.
+---
+
+## ✨ Key Features
+
+* **🧠 Intelligent Symptom Checker**: An interactive body explorer that accepts your symptoms and provides instant, AI-driven guidance and triage.
+* **📊 Disease Risk Assessment Wizards**: Beautiful, multi-step health screenings across 5 major diagnostic categories:
+  * 🫀 **Cardiovascular Health**
+  * 🩸 **Metabolic Health** (Diabetes)
+  * 🫘 **Kidney Health**
+  * 🧬 **Liver Health**
+  * 🫁 **Respiratory Health**
+* **🗺️ Personalized Health Roadmap**: A dynamic recommendations dashboard featuring your **Overall Wellness Score**, color-coded priority actions (Hydration, Sleep, Exercise), and custom diet plans based on your assessment results.
+* **📄 AI Medical Report Analysis**: Securely upload medical documents (PDFs/Images) and let the system extract and summarize key diagnostic information.
+* **💬 Virtual AI Assistant**: A built-in chat interface for real-time health-related queries and follow-up guidance.
+* **📱 Fully Responsive Design**: Seamless experience across mobile, tablet, and desktop devices.
 
 ## 🛠️ Technology Stack
 
-*   **Backend**: Python, Flask
-*   **Frontend**: HTML5, Vanilla JS, Tailwind CSS
-*   **UI/UX**: Premium Healthcare UI (Glassmorphism, Micro-animations)
-*   **Charts**: Chart.js
+* **Backend Environment**: Python, Flask web framework
+* **Frontend UI**: HTML5, Vanilla JavaScript, Tailwind CSS (for modern utility-first styling)
+* **Design System**: Premium Healthcare UI utilizing glassmorphism, micro-animations, and dynamic medical gradients (Emerald & Primary Blue).
+* **Data Visualization**: Chart.js for health metric rendering
 
-## 🚦 Getting Started
+---
 
-Follow these steps to run SymptoScan AI locally on your machine.
+## 🚀 Getting Started
+
+Follow these instructions to run SymptoScan AI locally on your machine.
 
 ### Prerequisites
-* Python 3.8+
-* pip (Python package installer)
+* Python 3.8 or higher installed on your system
+* `pip` (Python package installer)
 
-### Installation
+### Installation & Setup
 
 1. **Clone the repository:**
    ```bash
@@ -45,24 +64,35 @@ Follow these steps to run SymptoScan AI locally on your machine.
 
 2. **Create and activate a virtual environment:**
    ```bash
+   # On macOS and Linux
    python3 -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   source venv/bin/activate  
+   
+   # On Windows
+   venv\Scripts\activate
    ```
 
-3. **Install the dependencies:**
+3. **Install the required dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Run the application:**
+   *(Note: The main entry point is `main.py`)*
    ```bash
-   python app.py
+   python3 main.py
    ```
 
-5. **Open your browser:**
-   Navigate to `http://127.0.0.1:5001` to access the platform.
+5. **Access the application:**
+   Open your preferred web browser and navigate to:
+   ```text
+   http://127.0.0.1:5001
+   ```
 
 ---
+
 <div align="center">
-  <i>Developed to make proactive healthcare accessible, understandable, and beautiful.</i>
+  <i>Developed with ❤️ to make proactive healthcare accessible, understandable, and beautiful.</i>
+  <br>
+  <p>© 2026 SymptoScan AI Inc.</p>
 </div>

@@ -62,7 +62,7 @@
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-600">
                     <a href="{{ url_for('views.index') }}" class="hover:text-primary transition">Home</a>
-                    <a href="{{ url_for('views.dashboard') }}" class="hover:text-primary transition">Dashboard</a>
+
                     <a href="{{ url_for('views.symptom_checker') }}" class="hover:text-primary transition">Symptom Checker</a>
                     <a href="{{ url_for('views.predict_comprehensive') }}" class="hover:text-primary transition">360° Health Assessment</a>
                     <a href="{{ url_for('views.about') }}" class="hover:text-primary transition">About</a>
@@ -87,8 +87,7 @@
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-t mt-4 absolute w-full shadow-lg">
             <div class="flex flex-col px-4 py-4 space-y-4">
                 <a href="{{ url_for('views.index') }}" class="text-slate-600 hover:text-primary font-medium">Home</a>
-                <a href="{{ url_for('views.dashboard') }}"
-                    class="text-slate-600 hover:text-primary font-medium">Dashboard</a>
+
                 <a href="{{ url_for('views.symptom_checker') }}" class="text-slate-600 hover:text-primary font-medium">Symptom Checker</a>
                 <a href="{{ url_for('views.predict_comprehensive') }}" class="text-slate-600 hover:text-primary font-medium">360° Health Assessment</a>
                 <a href="{{ url_for('views.about') }}" class="text-slate-600 hover:text-primary font-medium">About</a>
@@ -199,9 +198,7 @@
                         <li><a href="{{ url_for('views.risk_prediction') }}"
                                 class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Risk
                                 Prediction</a></li>
-                        <li><a href="{{ url_for('views.dashboard') }}"
-                                class="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all duration-300 no-underline">Health
-                                Dashboard</a></li>
+
                         <li><a href="{{ url_for('views.ai_assistant') }}"
                                 class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-300 no-underline flex items-center gap-2">AI
                                 Assistant <span
