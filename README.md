@@ -18,6 +18,8 @@
 </div>
 
 <br>
+<img width="2588" height="1414" alt="image" src="https://github.com/user-attachments/assets/3554487b-28f2-4e16-9444-460de2446ffd" />
+
 
 SymptoScan AI is a comprehensive, modern healthcare application built to empower users with personalized health insights. Featuring a premium **glassmorphism UI**, it leverages advanced heuristics and intelligent algorithms to evaluate symptoms, predict disease risks, and generate clinical-grade personalized recommendations.
 
