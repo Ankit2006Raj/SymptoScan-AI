@@ -91,6 +91,18 @@ Follow these instructions to run SymptoScan AI locally on your machine.
 
 ---
 
+## 👨‍💻 Author
+
+**Ankit Raj**
+
+A passionate developer dedicated to building innovative software solutions that make a positive impact. Feel free to connect with me or reach out for collaborations!
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ankit2006raj)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ankit2006Raj)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ankit9905163014@gmail.com)
+
+---
+
 <div align="center">
   <i>Developed with ❤️ to make proactive healthcare accessible, understandable, and beautiful.</i>
   <br>
